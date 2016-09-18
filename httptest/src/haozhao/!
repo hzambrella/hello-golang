@@ -1,0 +1,15 @@
+package main
+
+import (
+	"flag"
+	"fmt"
+	"time"
+)
+
+var period = flag.Duration("hz", 1*time.Second, "a")
+
+func main() {
+	fmt.Printf("Sleeping for %v...", *period)
+	time.Sleep(*period)
+	fmt.Println()
+}
