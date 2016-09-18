@@ -1,2 +1,0 @@
-main.go|18 col 13| : expected operand, found '{'
-main.go|19 col 2| : expected ';', found 'var'
