@@ -14,5 +14,5 @@ return h.name+"hello"
 func main(){
 	bob:= Human{"bob"}
 	fmt.Println(bob)
-
+fmt.Println(bob.String())
 }
