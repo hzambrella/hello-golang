@@ -12,12 +12,12 @@ import (
 )
 
 func index(w http.ResponseWriter, r *http.Request) {
-	scheme :="http://"
+	scheme := "http://"
 	fmt.Println(r.TLS)
 	if r.TLS != nil {
-		scheme= "https://"
+		scheme = "https://"
 	}
-	fmt.Println(strings.Join([]string{scheme, r.Host, r.RequestURI},""))
+	fmt.Println(strings.Join([]string{scheme, r.Host, r.RequestURI}, ""))
 }
 
 func main() {

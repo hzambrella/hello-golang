@@ -3,35 +3,36 @@
 package main
 
 import (
-//	"crypto/sha1"
+	//	"crypto/sha1"
 	"fmt"
-//	"io"
+	//	"io"
 	"math/rand"
 	"time"
 )
 
 func main() {
-	for i:=0;i<50;i++{
-//	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-//	x := r.Intn(4)
-x:=3
-	switch x {
-//	case 0:
-//		fmt.Println(string(Krand(32, KC_RAND_KIND_NUM)))
-//	case 1:
-//		fmt.Println(string(Krand(32, KC_RAND_KIND_LOWER)))
-//	case 2:
-//		fmt.Println(string(Krand(32, KC_RAND_KIND_UPPER)))
-	case 3:
-		fmt.Println(Krand(16, KC_RAND_KIND_ALL))
-	default:
-		fmt.Println("default")
+	for i := 0; i < 50; i++ {
+		//	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+		//	x := r.Intn(4)
+		x := 3
+		switch x {
+		//	case 0:
+		//		fmt.Println(string(Krand(32, KC_RAND_KIND_NUM)))
+		//	case 1:
+		//		fmt.Println(string(Krand(32, KC_RAND_KIND_LOWER)))
+		//	case 2:
+		//		fmt.Println(string(Krand(32, KC_RAND_KIND_UPPER)))
+		case 3:
+			fmt.Println(Krand(16, KC_RAND_KIND_ALL))
+		default:
+			fmt.Println("default")
 
+		}
 	}
 }
-}
+
 // 随机字符串
-func Krand(size int, kind int)string {
+func Krand(size int, kind int) string {
 	ikind, kinds, result := kind, [][]int{[]int{10, 48}, []int{26, 97}, []int{26, 65}}, make([]byte, size)
 	is_all := kind > 2 || kind < 0
 	rand.Seed(time.Now().UnixNano())

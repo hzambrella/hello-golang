@@ -3,26 +3,26 @@
 package main
 
 import (
-//	"crypto/sha1"
+	//	"crypto/sha1"
 	"fmt"
-//	"io"
+	//	"io"
 	"math/rand"
 	"time"
 )
 
 func main() {
-	for i:=0;i<50;i++{
+	for i := 0; i < 50; i++ {
 		fmt.Println(Krand(16))
 	}
 }
 
 // 随机字符串
-func Krand(size int)string {
+func Krand(size int) string {
 	var ikind int
-	kinds, result :=  [][]int{[]int{10, 48}, []int{26, 97}, []int{26, 65}}, make([]byte, size)
+	kinds, result := [][]int{[]int{10, 48}, []int{26, 97}, []int{26, 65}}, make([]byte, size)
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < size; i++ {
-			ikind = rand.Intn(3)
+		ikind = rand.Intn(3)
 		scope, base := kinds[ikind][0], kinds[ikind][1]
 		result[i] = uint8(base + rand.Intn(scope))
 	}
