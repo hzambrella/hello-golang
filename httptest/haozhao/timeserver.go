@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// shuru:   telnet localhost 8088
 func main() {
 	service := ":8080"
 	tcpAddr, _ := net.ResolveTCPAddr("tcp4", service)
