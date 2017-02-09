@@ -32,6 +32,7 @@ func main() {
 	})
 
 	router.GET("/welcome", func(c *gin.Context) {
+        //默认的值
 		firstname := c.DefaultQuery("firstname", "Guest")
 		lastname := c.Query("lastname") // shortcut for c.Request.URL.Query().Get("lastname")
 
