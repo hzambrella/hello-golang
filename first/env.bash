@@ -1,1 +1,1 @@
-export GOPATH=/home/haozhao/hzstudy
+export GOPATH=/home/haozhao/hzstudy/first
