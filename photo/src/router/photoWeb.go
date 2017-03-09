@@ -9,8 +9,9 @@ import(
 	"html/template"
 	"lib"
 )
-
-
+const(
+UPLOAD_DIR="./upload/"
+)
 func SayHello(w http.ResponseWriter,r *http.Request){
 	userName:="haozhao"//TODO:real username
 	helloMes:="hello "+userName+"!"
@@ -67,7 +68,7 @@ func Upload(w http.ResponseWriter,r *http.Request){
 func View(w http.ResponseWriter,r *http.Request){
 	name:=r.FormValue("name")
 	if name==""{
-		http.NotFound(w,"name is nil")
+		http.NotFound(w,r)
 		log.Println("name is nil")
 		return
 	}

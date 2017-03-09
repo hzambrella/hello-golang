@@ -27,7 +27,7 @@ const(
 	"Choose an image to upload: <input name=\"image\" type=\"file\" />"+
 	"<input type=\"submit\" value=\"Upload\" />"+
 	"</form><body></html>"
-	UPLOAD_DIR="./uploads"
+//	UPLOAD_DIR="./uploads"
 )
 func UploadOld(w http.ResponseWriter,r *http.Request){
 	if r.Method=="GET"{
