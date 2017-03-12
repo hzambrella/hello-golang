@@ -1,30 +1,44 @@
+// important thing I should say three times!
+// don't use http.Error()
+
+
 package main
 import (
 	"net/http"
 	"router"
 	"log"
-	_"lib"
+	_"lib/template"
 )
 const(
 	helloPath="/hello"
+	loginViewPath="/login/view"
+	loginPath="/login"
+
+
 	uploadPath="/upload"
 	viewPath="/view"
 	listViewPath="/listview"
+
 	TEMPLATE_DIR="./public"
 )
-
-
 
 //TemplateSlice:=make(map[string]*template.Template)
 
 func main(){
+
 	mux:=http.NewServeMux()
 	lenOfRouter:=20
-	routerSlice:=[]string{helloPath,uploadPath,viewPath,listViewPath}
-	mux.HandleFunc(helloPath,safeHandleFunc(router.SayHello))
-	mux.HandleFunc(uploadPath,safeHandleFunc(router.Upload))
-	mux.HandleFunc(viewPath,safeHandleFunc(router.View))
-	mux.HandleFunc(listViewPath,safeHandleFunc(router.ListView))
+
+	routerSlice:=[]string{helloPath,loginViewPath,loginPath,uploadPath,viewPath,listViewPath}
+
+	mux.HandleFunc(helloPath,router.SayHello)
+	mux.HandleFunc(loginViewPath,router.LoginView)
+	mux.HandleFunc(loginPath,router.Login)
+
+	mux.HandleFunc(uploadPath,router.Upload)
+	mux.HandleFunc(viewPath,router.View)
+	mux.HandleFunc(listViewPath,router.ListView)
+
 	addr:=":8080"
 	for _,v:=range routerSlice {
 		if len(v)<lenOfRouter{
@@ -35,7 +49,9 @@ func main(){
 		log.Println("Router "+v+ " is register!")
 		}
 	}
+
 	log.Println("runing at",addr)
+
 	if	err:=http.ListenAndServe(addr,mux);err!=nil{
 		log.Fatal("ListenAndServe",err)
 	}
@@ -53,3 +69,4 @@ func safeHandleFunc(fn http.HandlerFunc)http.HandlerFunc{
 		fn(w,r)
 	}
 }
+

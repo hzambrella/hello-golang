@@ -6,29 +6,20 @@ import(
 	"io/ioutil"
 //	"mime/multipart"
 	"os"
-	"html/template"
-	"lib"
+	tmpl"lib/template"
 )
+
 const(
-UPLOAD_DIR="./upload/"
+UPLOAD_DIR="./uploads/"
 )
-func SayHello(w http.ResponseWriter,r *http.Request){
-	userName:="haozhao"//TODO:real username
-	helloMes:="hello "+userName+"!"
-	_,err:=io.WriteString(w,helloMes)
-	if err!=nil{
-		log.Fatal("SayHello:",err)
-		return
-	}
-	log.Println(http.StatusOK,r.Method,"SayHello")
-	return
-}
+
 
 func Upload(w http.ResponseWriter,r *http.Request){
 	if r.Method=="GET"{
-		err:=lib.RenderHTML(w,"photo/upload",nil)
+		err:=tmpl.RenderHTML(w,"photo/upload",nil)
 		if err!=nil{
 			log.Fatal("Upload,render:photo/upload",err)
+			http.Error(w,err.Error(),500)
 			return
 		}
 	log.Println(http.StatusOK,r.Method,"Upload")
@@ -66,6 +57,7 @@ func Upload(w http.ResponseWriter,r *http.Request){
 }
 
 func View(w http.ResponseWriter,r *http.Request){
+
 	name:=r.FormValue("name")
 	if name==""{
 		http.NotFound(w,r)
@@ -94,37 +86,32 @@ func isExist(path string)bool{
 
 
 func ListView(w http.ResponseWriter,r *http.Request){
-	fileInfoSlice,err:=ioutil.ReadDir(UPLOAD_DIR)
-		if err!=nil{
-			http.Error(w,err.Error(),http.StatusInternalServerError)
-			log.Fatal("ListView,ioutil.ReadDir:",err)
-			return
-		}
+	log.Println("router/photoWeb.go/ListView:ready to Auth")
+	u,ok:=Auth(w,r)
+	if !ok{
+		log.Println("ListView:Auth fail")
+		return
+	}
 
-		data:=make(map[string]interface{})
-		fileNameSlice:=make([]string,0)
-		for _,fileInfo:=range fileInfoSlice{
-			fileNameSlice=append(fileNameSlice,fileInfo.Name())
-		}
-		data["imagename"]=fileNameSlice
-		err=lib.RenderHTML(w,"photo/list",data)
-		if err!=nil{
-			log.Fatal("ListView:render list.html",err)
-			return
-		}
-		log.Println(http.StatusOK,"ListView")
+	log.Println("Listview is request by "+u.Name)
+
+	fileInfoSlice,err:=ioutil.ReadDir(UPLOAD_DIR)
+	if err!=nil{
+		log.Println("ListView,ioutil.ReadDir:",err.Error())
+		return
+	}
+
+	data:=make(map[string]interface{})
+	fileNameSlice:=make([]string,0)
+	for _,fileInfo:=range fileInfoSlice{
+		fileNameSlice=append(fileNameSlice,fileInfo.Name())
+	}
+	data["imagename"]=fileNameSlice
+	err=tmpl.RenderHTML(w,"photo/list",data)
+	if err!=nil{
+		log.Println("ListView:render list.html",err.Error())
+		return
+	}
+	log.Println(http.StatusOK,"ListView")
 	return
 }
-
-// 老方法，缺点是每次调用都要要读取和渲染模板,现在采用下面的方法:RenderHTML
-func oldRenderHTML(method string,w http.ResponseWriter,tmpfile string,data map[string]interface{})error{
-	t,err:=template.ParseFiles(tmpfile)
-	if err!=nil{
-		return err
-	}
-	if err=t.Execute(w,data);err!=nil{
-		return err
-	}
-	return nil
-}
-

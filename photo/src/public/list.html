@@ -7,7 +7,7 @@
 <body>
     <ol>
         {{range $.imagename}}
-        <li><a href="/view?name={{.|urlquery}}">{{.|html}}</a></li>
+            <li><a href="/view?name={{.|urlquery}}">{{.|html}}</a></li>
         {{end}}
     </ol>
 </body>
