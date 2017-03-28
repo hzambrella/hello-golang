@@ -18,6 +18,7 @@ func main() {
 	r.GET("/login", login)
 	r.POST("/login", pass)
 	r.GET("/getCookie", getCookie)
+	r.GET("/test", helpTest)
 	r.Run(":8080")
 }
 
@@ -51,4 +52,8 @@ func getCookie(c *gin.Context){
 		fmt.Println("reading cookie")
 		fmt.Fprintln(w,cookie.Name)
 	}
+}
+
+func helpTest(c *gin.Context){
+	c.HTML(200, "login", gin.H{})
 }
