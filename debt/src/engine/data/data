@@ -1,0 +1,32 @@
+[
+{
+"ownerid": 1,
+"debtorid": 2,
+"amount": 10
+},
+{
+"ownerid": 2,
+"debtorid": 3,
+"amount": 20
+},
+{
+"ownerid": 3,
+"debtorid": 1,
+"amount": 30
+},
+{
+"ownerid": 5,
+"debtorid": 6,
+"amount": 40
+},
+{
+"ownerid": 7,
+"debtorid": 8,
+"amount": 10
+},
+{
+"ownerid": 8,
+"debtorid": 9,
+"amount": 5
+}
+]
