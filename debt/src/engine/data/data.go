@@ -6,6 +6,10 @@ import (
 	"log"
 )
 
+type DataS struct{
+	 DStore Data
+}
+
 type Relation struct{
 	OwnerId int64 `json:"ownerid"`//zhai quan  ren
 	DebtorId int64	`json:"debtorid"`// zhai wu ren
@@ -14,45 +18,30 @@ type Relation struct{
 
 type Data []*Relation
 
+
 var (
 	ErrDataNotFound=errors.New("data isn't exist")
 	ErrDataExist=errors.New("data is already exist ,can't add")
 	fileName string="data"
 )
 
-func New()(Data){
-	data,err:=parseDataFromFile(fileName)
+func New()*DataS{
+	data,err:=GetAll()
 	if err!=nil{
 		panic(err)
 	}
-	return data
+	return &DataS{DStore:data}
 }
 
-//add
-func (d Data)Add(relation *Relation)error{
-	d=append(d,relation)
-	return saveDataToFile(fileName,d)
-}
-
-//get
-func (d Data)Get(key int)(*Relation,error){
-	result:=d[key]
-	if result==nil{
-		return nil,ErrDataNotFound
-	}else{
-		return result,nil
+func GetAll()(Data,error){
+	data,err:=parseDataFromFile(fileName)
+	if err!=nil{
+		return nil,err
 	}
+	return data,nil
 }
 
-//set
-func (d Data)Set(key int,relation *Relation)(error){
-	d[key]=relation
-	return saveDataToFile(fileName,d)
-}
-
-//delete
-func (d Data)Delete(key int)error{
-	d=append(d[:key],d[key+1:]...)
+func WriteDataToFile(d Data)error{
 	return saveDataToFile(fileName,d)
 }
 
@@ -85,3 +74,33 @@ func saveDataToFile(fileName string,d Data)error{
 
 	return ioutil.WriteFile(fileName,dbyte,0666)
 }
+
+
+//add
+func (d *DataS)Add(relation *Relation)error{
+	d.DStore=append(d.DStore,relation)
+	return saveDataToFile(fileName,d.DStore)
+}
+
+//get
+func (d *DataS)Get(key int)(*Relation,error){
+	result:=d.DStore[key]
+	if result==nil{
+		return nil,ErrDataNotFound
+	}else{
+		return result,nil
+	}
+}
+
+//set
+func (d *DataS)Set(key int,relation *Relation)(error){
+	d.DStore[key]=relation
+	return saveDataToFile(fileName,d.DStore)
+}
+
+//delete
+func (d *DataS)Delete(key int)error{
+	d.DStore=append(d.DStore[:key],d.DStore[key+1:]...)
+	return saveDataToFile(fileName,d.DStore)
+}
+

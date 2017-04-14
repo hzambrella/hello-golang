@@ -14,13 +14,14 @@ func TestGet(t *testing.T){
 }
 */
 func TestAdd(t *testing.T){
-	d:=New()
+	ds:=New()
 	fmt.Println("before add")
-	for _,v:=range d{
+	fmt.Println(ds.DStore)
+	for _,v:=range ds.DStore{
 		fmt.Println(v)
 	}
 
-	err:=d.Add(&Relation{
+	err:=ds.Add(&Relation{
 		OwnerId:1,
 		DebtorId:2,
 		Amount:50,
@@ -30,23 +31,24 @@ func TestAdd(t *testing.T){
 	}
 
 	fmt.Println("add ok")
-	for _,v:=range d{
+	for _,v:=range ds.DStore{
 		fmt.Println(v)
 	}
 }
 
-/*
 func TestDelete(t *testing.T){
-	d:=New()
-	fmt.Println("before delete",d)
-	d,err=d.Delete(len(d)-1)
-	fmt.Println("delete ok",d)
-	d:=New()
-	err:=d.Delete("3")
-	if err!=nil{
+	ds:=New()
+	fmt.Println("before delete")
+	for _,v:=range ds.DStore{
+		fmt.Println(v)
+	}
+	if err:=ds.Delete(len(ds.DStore)-1);err!=nil{
 		t.Fatal(err)
 	}
 	fmt.Println("delete ok")
+	for _,v:=range ds.DStore{
+		fmt.Println(v)
+	}
 }
 
 /*

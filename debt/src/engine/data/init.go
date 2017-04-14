@@ -5,7 +5,9 @@ import(
 	myos"lib/os"
 )
 
-var data=[]*Relation{
+//var DStore Data
+
+var dataInit=[]*Relation{
 	&Relation{OwnerId:1,DebtorId:2,Amount:10},
 	&Relation{OwnerId:2,DebtorId:3,Amount:20},
 	&Relation{OwnerId:3,DebtorId:1,Amount:30},
@@ -30,11 +32,9 @@ func init(){
 		panic(err)
 	}
 
-	for _,v:=range data{
-		_,err:=AddAll(v)
-		if err!=nil{
-			panic(err)
-		}
+	if err:=WriteDataToFile(dataInit);err!=nil{
+		panic(err)
 	}
-	fmt.Println("add all ok")
+	datas:=New()
+	fmt.Println("add all ok",datas)
 }

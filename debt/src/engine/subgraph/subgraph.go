@@ -1,5 +1,0 @@
-package subgraph
-import(
-	"fmt"
-)
-
