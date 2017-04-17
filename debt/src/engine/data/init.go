@@ -32,9 +32,8 @@ func init(){
 		panic(err)
 	}
 
-	if err:=WriteDataToFile(dataInit);err!=nil{
+	if err:=writeDataToFile(dataInit);err!=nil{
 		panic(err)
 	}
-	datas:=New()
-	fmt.Println("add all ok",datas)
+	fmt.Println("engine/data:add all ok!")
 }

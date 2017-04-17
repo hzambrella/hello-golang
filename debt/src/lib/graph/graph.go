@@ -23,6 +23,7 @@ type edge struct {
 //      0 -> { y: 1 } -> { y: 3}
 //      1 -> { y: 2 } -> { y: 3}
 //      2 -> { y: 0 }
+
 type AdjList struct {
 	edges       []*edge
 	edgeCount   int
@@ -147,6 +148,7 @@ func (g *AdjList) Components(fs bool) []int {
 }
 
 
+
 const (
 	undiscovered = iota
 	discovered = iota
@@ -218,4 +220,12 @@ func min(x, y int) int {
 	} else {
 		return y
 	}
+}
+
+func MaxIntSliceElement(i []int)int{
+	var m int
+	for _,v:=range i{
+		m=max(v,m)
+	}
+	return m
 }

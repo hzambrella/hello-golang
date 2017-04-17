@@ -84,6 +84,16 @@ func TestStringUndirected(t *testing.T) {
 		t.Fatal("Graphviz representation not working correctly")
 		t.Fatalf("actual result: \n%s\n", actual)
 	}
+	vpath,err:=SaveToFileVrg("vrg","test1",actual)
+	if err!=nil{
+		t.Fatal(err)
+	}
+	fmt.Println(vpath)
+	ppath,err:=DrawVrg("vrg","picture","test1")
+	if err!=nil{
+		t.Fatal(err)
+	}
+	fmt.Println(ppath)
 }
 
 // Find connected components in an undirected graph.
@@ -128,4 +138,5 @@ func TestComponents(t *testing.T) {
 	if !compOne || !compTwo {
 		t.Fatalf("%v", comps)
 	}
+
 }

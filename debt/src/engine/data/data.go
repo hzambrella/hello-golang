@@ -26,14 +26,14 @@ var (
 )
 
 func New()*DataS{
-	data,err:=GetAll()
+	data,err:=getAll()
 	if err!=nil{
 		panic(err)
 	}
 	return &DataS{DStore:data}
 }
 
-func GetAll()(Data,error){
+func getAll()(Data,error){
 	data,err:=parseDataFromFile(fileName)
 	if err!=nil{
 		return nil,err
@@ -41,7 +41,7 @@ func GetAll()(Data,error){
 	return data,nil
 }
 
-func WriteDataToFile(d Data)error{
+func writeDataToFile(d Data)error{
 	return saveDataToFile(fileName,d)
 }
 
