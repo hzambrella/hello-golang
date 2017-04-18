@@ -29,7 +29,7 @@ func SubGraph(){
 		panic(err)
 	}
 
-	comps:=g.Components(true)
+	comps:=g.Components(false)
 	gal:=subGraphAdjList(datas,g,comps,directed)
 	for k,v:=range gal{
 		if v!=nil{

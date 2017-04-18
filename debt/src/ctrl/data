@@ -11,12 +11,37 @@
 },
 {
 "ownerid": 3,
+"debtorid": 4,
+"amount": 30
+},
+{
+"ownerid": 4,
 "debtorid": 1,
 "amount": 30
 },
 {
 "ownerid": 5,
+"debtorid": 1,
+"amount": 30
+},
+{
+"ownerid": 4,
 "debtorid": 6,
+"amount": 30
+},
+{
+"ownerid": 6,
+"debtorid": 9,
+"amount": 30
+},
+{
+"ownerid": 9,
+"debtorid": 5,
+"amount": 30
+},
+{
+"ownerid": 2,
+"debtorid": 7,
 "amount": 40
 },
 {
@@ -27,6 +52,36 @@
 {
 "ownerid": 8,
 "debtorid": 9,
+"amount": 5
+},
+{
+"ownerid": 10,
+"debtorid": 11,
+"amount": 5
+},
+{
+"ownerid": 11,
+"debtorid": 12,
+"amount": 5
+},
+{
+"ownerid": 12,
+"debtorid": 13,
+"amount": 5
+},
+{
+"ownerid": 13,
+"debtorid": 14,
+"amount": 5
+},
+{
+"ownerid": 15,
+"debtorid": 16,
+"amount": 5
+},
+{
+"ownerid": 16,
+"debtorid": 17,
 "amount": 5
 }
 ]

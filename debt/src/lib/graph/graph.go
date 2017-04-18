@@ -124,10 +124,18 @@ func (g AdjList) String() string {
 func (g *AdjList) Components(fs bool) []int {
 	// each index v is a vertex, and the value comps[v]
 	// is the number of the component v is in
+
 	comps := make([]int, len(g.edges))
 	discovered := make([]bool, len(g.edges))
 	compNum := 0
 	idcsComp:=make([]int ,0)
+
+	if fs{
+		fmt.Println("use Breadth-First Search for undirected graph")
+	}else{
+		fmt.Println("use Depth-First Search for undirected graph")
+	}
+
 	for v, _ := range g.edges {
 		if !discovered[v] {
 			// indices of component containing v
@@ -181,11 +189,11 @@ func (g *AdjList) bfs(v int) []int {
 func (g *AdjList) dfs(v int) []int {
 	state := make([]int, len(g.edges)) // all initially undiscovered
 	indices := make([]int, 0)
-	indices=dfsfor(v,g,state,indices)
+	state,indices=dfsfor(v,g,state,indices)
 	return indices
 }
 
-func dfsfor(v int,g *AdjList,state,indices []int)[]int{
+func dfsfor(v int,g *AdjList,state,indices []int)([]int,[]int){
 	indices=append(indices,v)
 	state[v]=discovered
 	// test if you need
@@ -193,17 +201,22 @@ func dfsfor(v int,g *AdjList,state,indices []int)[]int{
 	for _,v:=range g.edges{
 		fmt.Println(v)
 	}
+	fmt.Println(v,state,indices)
 	*/
-	//fmt.Println(v,state,indices)
+	//
 	for e:=g.edges[v];e!=nil;e=e.next{
 		//test if you need
 		//fmt.Printf("v %d,change %d\n ",v,e.y)
-		if state[e.y]==undiscovered {
-			indices=dfsfor(e.y,g,state,indices)
-	}else{
+		//
+		if e!=nil&&e.y>=0{
+			//fmt.Println(e)
+			if state[e.y]==undiscovered {
+				state,indices=dfsfor(e.y,g,state,indices)
+			}else{
+			}
 		}
 	}
-	return indices
+	return state,indices
 }
 
 func max(x, y int) int {
