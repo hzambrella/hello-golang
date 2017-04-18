@@ -10,6 +10,8 @@ import(
 
 var vrgfile="vrg"
 var pngfile="png"
+var directed=false
+var	weight=true
 var significant=2
 type GAL []*graph.AdjList
 
@@ -18,11 +20,10 @@ func SubGraph(){
 	var mainGraph="main"
 	var subGraph="subgraph"
 	datas:=data.New()
-	directed:=true
-	g := graph.New(directed)
+	g := graph.New(directed,weight)
 
 	for _,v:=range datas.DStore{
-		g.AddEdge(int(v.OwnerId),int(v.DebtorId))
+		g.AddEdgeWithWeight(int(v.OwnerId),int(v.DebtorId),v.Amount)
 	}
 
 	if err:=draw(mainGraph,g.String());err!=nil{
@@ -47,10 +48,10 @@ func subGraphAdjList(datas *data.DataS,g graph.AdjList,comps []int,directed bool
 	for _,v:=range datas.DStore {
 		key:=comps[v.OwnerId]
 		if gal[key]==nil{
-			adj:=graph.New(directed)
+			adj:=graph.New(directed,weight)
 			gal[key]=&adj
 		}
-		gal[key].AddEdge(int(v.OwnerId),int(v.DebtorId))
+		gal[key].AddEdgeWithWeight(int(v.OwnerId),int(v.DebtorId),v.Amount)
 	}
 	return gal
 }

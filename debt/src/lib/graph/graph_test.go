@@ -7,7 +7,7 @@ import (
 
 func digraphSixVertices() AdjList {
 	directed := true
-	g := New(directed)
+	g := New(directed,false)
 	g.AddEdge(0, 2)
 	g.AddEdge(1, 3)
 	g.AddEdge(1, 4)
@@ -50,7 +50,7 @@ func TestString(t *testing.T) {
 
 func graphSevenVertices() AdjList {
 	directed := false
-	g := New(directed)
+	g := New(directed,false)
 	g.AddEdge(0, 2)
 	g.AddEdge(1, 2)
 	g.AddEdge(1, 3)

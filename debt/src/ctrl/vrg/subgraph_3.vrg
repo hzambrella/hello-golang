@@ -1,4 +1,6 @@
-digraph {
-  15 -> 16;
-  16 -> 17;
+strict graph {
+  15 -- 16[label=5];
+  16 -- 17[label=5];
+  16 -- 15[label=5];
+  17 -- 16[label=5];
 }

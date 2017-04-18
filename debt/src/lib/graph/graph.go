@@ -7,14 +7,16 @@ package graph
 import (
 	"bytes"
 	"fmt"
+	"strconv"
+	"errors"
 	"github.com/tlehman/ds"
 )
-
+var ErrEdgeNotFound=errors.New("edge not found")
 
 // forms a linked list of incident edges
 type edge struct {
 	y      int
-	weight int
+	weight float64
 	next   *edge
 }
 
@@ -29,14 +31,15 @@ type AdjList struct {
 	edgeCount   int
 	vertexCount int
 	directed    bool
+	weight		bool
 	vertexset   []bool
 }
 
 // Builds a new adjaceny list, storing the boolean flag that
 // distinguishes a directed from an undirected graph.
-func New(directed bool) AdjList {
+func New(directed,weight bool) AdjList {
 	edges := make([]*edge, 0)
-	return AdjList{edges: edges, directed: directed}
+	return AdjList{edges: edges, directed: directed,weight:weight}
 }
 
 // Returns the size of the set of vertices
@@ -84,6 +87,50 @@ func (g *AdjList) AddEdge(x, y int) {
 	}
 }
 
+func (g *AdjList) AddEdgeWithWeight(x, y int,weight float64) {
+	g.weight=true
+	g.addEdge(x,y)
+	g.EditWeight(x,y,weight)
+	if !g.directed {
+		g.addEdge(y,x)
+		g.EditWeight(y,x,weight)
+	}
+}
+
+func (g *AdjList)EditWeight(x,y int,weight float64)error{
+	g.weight=true
+	notFound:=true
+	for e:=g.edges[x];e!=nil;e=e.next{
+		if e.y==y{
+			e.weight=weight
+			notFound=false
+		}
+	}
+
+	if notFound{
+		errMess:=fmt.Sprintf("edge <%d %d> not found",x,y)
+		return errors.New(errMess)
+	}
+	return nil
+}
+
+func (g *AdjList)GetWeight(x,y int)(float64,error){
+	notFound:=true
+	var weight float64
+	for e:=g.edges[x];e!=nil;e=e.next{
+		if e.y==y{
+			weight=e.weight
+			notFound=false
+		}
+	}
+
+	if notFound{
+		errMess:=fmt.Sprintf("edge <%d %d> not found",x,y)
+		return 0,errors.New(errMess)
+	}
+	return weight,nil
+}
+
 func (g *AdjList) resizeEdges(size int) {
 	diff := size - len(g.edges)
 	for i := 0; i <= diff; i++ {
@@ -109,7 +156,12 @@ func (g AdjList) String() string {
 	for x, e := range g.edges {
 		if x > -1 && e.y > -1 {
 			for c := e; c != nil; c = c.next {
-				buffer.WriteString(fmt.Sprintf("  %d %s %d;\n", x, arrow, c.y))
+				if g.weight{
+					weightStr:=strconv.FormatFloat(c.weight,'f',-1,64)
+					buffer.WriteString(fmt.Sprintf("  %d %s %d[label=%s];\n", x, arrow, c.y,weightStr))
+				}else{
+					buffer.WriteString(fmt.Sprintf("  %d %s %d;\n", x, arrow, c.y))
+				}
 			}
 		}
 	}
