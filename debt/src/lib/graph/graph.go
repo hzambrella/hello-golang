@@ -16,7 +16,7 @@ var ErrEdgeNotFound=errors.New("edge not found")
 // forms a linked list of incident edges
 type edge struct {
 	y      int
-	weight float64
+	Weight float64
 	next   *edge
 }
 
@@ -90,19 +90,19 @@ func (g *AdjList) AddEdge(x, y int) {
 func (g *AdjList) AddEdgeWithWeight(x, y int,weight float64) {
 	g.weight=true
 	g.addEdge(x,y)
-	g.EditWeight(x,y,weight)
+	g.AddWeight(x,y,weight)
 	if !g.directed {
 		g.addEdge(y,x)
-		g.EditWeight(y,x,weight)
+		g.AddWeight(y,x,weight)
 	}
 }
 
-func (g *AdjList)EditWeight(x,y int,weight float64)error{
+func (g *AdjList)AddWeight(x,y int,weight float64)error{
 	g.weight=true
 	notFound:=true
 	for e:=g.edges[x];e!=nil;e=e.next{
-		if e.y==y{
-			e.weight=weight
+		if e.y==y&&e.Weight==0{
+			e.Weight=weight
 			notFound=false
 		}
 	}
@@ -113,7 +113,7 @@ func (g *AdjList)EditWeight(x,y int,weight float64)error{
 	}
 	return nil
 }
-
+/*
 func (g *AdjList)GetWeight(x,y int)(float64,error){
 	notFound:=true
 	var weight float64
@@ -130,7 +130,7 @@ func (g *AdjList)GetWeight(x,y int)(float64,error){
 	}
 	return weight,nil
 }
-
+*/
 func (g *AdjList) resizeEdges(size int) {
 	diff := size - len(g.edges)
 	for i := 0; i <= diff; i++ {
@@ -157,7 +157,7 @@ func (g AdjList) String() string {
 		if x > -1 && e.y > -1 {
 			for c := e; c != nil; c = c.next {
 				if g.weight{
-					weightStr:=strconv.FormatFloat(c.weight,'f',-1,64)
+					weightStr:=strconv.FormatFloat(c.Weight,'f',-1,64)
 					buffer.WriteString(fmt.Sprintf("  %d %s %d[label=%s];\n", x, arrow, c.y,weightStr))
 				}else{
 					buffer.WriteString(fmt.Sprintf("  %d %s %d;\n", x, arrow, c.y))

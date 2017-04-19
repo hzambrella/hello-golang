@@ -10,7 +10,7 @@ import(
 
 var vrgfile="vrg"
 var pngfile="png"
-var directed=false
+var directed=true
 var	weight=true
 var significant=2
 type GAL []*graph.AdjList
