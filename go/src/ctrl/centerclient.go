@@ -7,7 +7,8 @@ import(
 )
 
 type CenterClient struct{
-	ipc.IpcClient
+	//wrong:ipc.IpcClient
+	*ipc.IpcClient
 }
 
 //wrong,anonymous combination
@@ -37,7 +38,7 @@ func(client *CenterClient)AddPlayer(player *Player)error{
 }
 
 
-func(client *CenterClient)removePlayer(name string)error{
+func(client *CenterClient)RemovePlayer(name string)error{
 	params,err:=json.Marshal(name)
 	if err!=nil{
 		return err
@@ -55,7 +56,7 @@ func(client *CenterClient)removePlayer(name string)error{
 	return nil
 }
 
-func(client *CenterClient)listPlayer()([]*Player,error){
+func(client *CenterClient)ListPlayer()([]*Player,error){
 
 	resp,err:=client.Call("listplayer","")//because of anonymous
 	if err!=nil{
@@ -75,9 +76,11 @@ func(client *CenterClient)listPlayer()([]*Player,error){
 	return players,nil
 }
 
-func(client *CenterClient)broadcast(message string)error{
+func(client *CenterClient)Broadcast(message string)error{
 	mess:= &Message{}
 	mess.Content=message
+	mess.From="admin"
+	mess.To="all"
 	params,err:=json.Marshal(mess)
 	if err!=nil{
 		return err
