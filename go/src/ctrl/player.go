@@ -21,13 +21,13 @@ func NewPlayer() *Player {
 		mRec := <-p.mess
 		if mRec.To=="all"{
 			if mRec.From=="admin"{
-				fmt.Println(fmt.Sprintf("[all]system:[%s]"),mRec.Content)
+				fmt.Println(fmt.Sprintf("[all]system:[%s]",mRec.Content))
 			}else{
-				fmt.Println(fmt.Sprintf("[all]%s:[%s]"),mRec.From,mRec.Content)
+				fmt.Println(fmt.Sprintf("[all]%s:[%s]",mRec.From,mRec.Content))
 			}
 		}
 		if mRec.To==p.Name{
-			fmt.Println(fmt.Sprintf("[private]%s:%s"),mRec.From,mRec.Content)
+			fmt.Println(fmt.Sprintf("[private]%s:%s",mRec.From,mRec.Content))
 		}
 	}(p)
 

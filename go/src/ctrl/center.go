@@ -50,11 +50,11 @@ func (server *CenterServer) removePlayer(params string) error {
 	server.mutex.Lock()
 	defer server.mutex.Unlock()
 
-	for k, v := range server.players {
+	for k, v := range server.players{
 		if v.Name == p {
 			server.players = append(server.players[:k], server.players[k+1:]...)
+			return nil
 		}
-		return nil
 	}
 
 	return errors.New(fmt.Sprintf("player %s not found", p))
@@ -70,7 +70,7 @@ func (server *CenterServer) listPlayer() (string, error) {
 
 func (server *CenterServer) broadcast(params string) error {
 	var mess *Message
-	if err := json.Unmarshal([]byte(params), mess); err != nil {
+	if err := json.Unmarshal([]byte(params), &mess); err != nil {
 		return err
 	}
 
@@ -91,11 +91,15 @@ func (server *CenterServer) Handle(method, params string) *ipc.Response {
 		if err := server.addPlayer(params); err != nil {
 			resp.Code = "500"
 			resp.Body = err.Error()
+		}else{
+			resp.Code = "200"
 		}
 	case "removeplayer":
 		if err := server.removePlayer(params); err != nil {
 			resp.Code = "500"
 			resp.Body = err.Error()
+		}else{
+			resp.Code = "200"
 		}
 	case "listplayer":
 		str, err := server.listPlayer()
@@ -110,6 +114,8 @@ func (server *CenterServer) Handle(method, params string) *ipc.Response {
 		if err := server.broadcast(params); err != nil {
 			resp.Code = "500"
 			resp.Body = err.Error()
+		}else{
+			resp.Code="200"
 		}
 	default:
 		resp.Code = "404"

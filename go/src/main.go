@@ -39,7 +39,7 @@ func Help(args []string)int{
 }
 
 func Quit(args []string)int{
-	fmt.Println("good bye")
+	fmt.Println("good bye!")
 	return 1
 }
 
@@ -47,6 +47,7 @@ func Login(args []string)int{
 	//in case of panic :index out of range ,should check len(args)
 	if len(args)!=4{
 		fmt.Println("Usage:i<username><level><exp>")
+		return 0
 	}
 
 	level,err:=strconv.Atoi(args[2])
@@ -76,6 +77,7 @@ func Logout(args []string)int{
 	//in case of panic :index out of range ,should check len(args)
 	if len(args)!=2{
 		fmt.Println("Usage:o<username>")
+		return 0
 	}
 
 	if err:=centerClient.RemovePlayer(args[1]);err!=nil{
@@ -101,6 +103,7 @@ func Broadcast(args []string)int{
 	//in case of panic :index out of range ,should check len(args)
 	if len(args)!=2{
 		fmt.Println("Usage:b<message>")
+		return 0
 	}
 	if err:=centerClient.Broadcast(args[1]);err!=nil{
 		fmt.Println(err.Error())

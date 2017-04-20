@@ -49,7 +49,7 @@ func (server *IpcServer)Connect()chan string{
 			b,err:=json.Marshal(resp)
 			c<-string(b)  //return result
 
-			fmt.Println("session closed.")
+			fmt.Println(resp.Code)
 		}
 	}(session)
 
