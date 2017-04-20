@@ -36,7 +36,7 @@ func TestIpc(t *testing.T){
 
 	fmt.Println("test finish")
 
-	client1.Close()
+	//client1.Close()
 	client2.Close()
 }
 

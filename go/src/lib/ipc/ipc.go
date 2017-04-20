@@ -29,22 +29,23 @@ func NewIpcServer(server Server)*IpcServer{
 }
 
 func (server *IpcServer)Connect()chan string{
-	session:=make(chan string ,0)
-
-	go func (c chan string){
+		session:=make(chan string,0)
+		go func (c chan string){
 		for {
 			request:=<-c
 			if request=="CLOSE"{
 				break   // close this connect
 			}
 			var req Request
+			var resp *Response
 			err:=json.Unmarshal([]byte(request),&req)
 			if err!=nil{
 				// TODO:deal err
+				resp=&Response{"500",err.Error()}
 				panic(err)
 			}
 
-			resp:=server.Handle(req.Method,req.Params)
+			resp=server.Handle(req.Method,req.Params)
 			b,err:=json.Marshal(resp)
 			c<-string(b)  //return result
 
