@@ -32,8 +32,10 @@ func (server *IpcServer)Connect()chan string{
 		session:=make(chan string,0)
 		go func (c chan string){
 		for {
+			fmt.Println("ipc.go:35:new for")
 			request:=<-c
 			if request=="CLOSE"{
+				fmt.Println("ipc.go:38:break")// main procedure is finish ,it is useless
 				break   // close this connect
 			}
 			var req Request
@@ -49,11 +51,12 @@ func (server *IpcServer)Connect()chan string{
 			b,err:=json.Marshal(resp)
 			c<-string(b)  //return result
 
-			fmt.Println(resp.Code)
+			fmt.Println(req.Method,":[",resp.Code,"]")
 		}
+		fmt.Println("ipc.go:55:thread end")
 	}(session)
 
-	fmt.Println("A new session has been created successsfully " )
+	fmt.Println("ipc.go:57:A new session(channal) has been created successsfully " )
 	return session
 }
 

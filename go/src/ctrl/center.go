@@ -19,7 +19,7 @@ type Message struct {
 type CenterServer struct {
 	players []*Player
 	//rooms   []*Room
-	mutex   sync.RWMutex
+	mutex sync.RWMutex
 }
 
 func NewCenterServer() *CenterServer {
@@ -50,8 +50,9 @@ func (server *CenterServer) removePlayer(params string) error {
 	server.mutex.Lock()
 	defer server.mutex.Unlock()
 
-	for k, v := range server.players{
+	for k, v := range server.players {
 		if v.Name == p {
+			v.mess<-&Message{From:v.Name,To:v.Name,Content:"///system:quit"}
 			server.players = append(server.players[:k], server.players[k+1:]...)
 			return nil
 		}
@@ -91,14 +92,14 @@ func (server *CenterServer) Handle(method, params string) *ipc.Response {
 		if err := server.addPlayer(params); err != nil {
 			resp.Code = "500"
 			resp.Body = err.Error()
-		}else{
+		} else {
 			resp.Code = "200"
 		}
 	case "removeplayer":
 		if err := server.removePlayer(params); err != nil {
 			resp.Code = "500"
 			resp.Body = err.Error()
-		}else{
+		} else {
 			resp.Code = "200"
 		}
 	case "listplayer":
@@ -114,8 +115,8 @@ func (server *CenterServer) Handle(method, params string) *ipc.Response {
 		if err := server.broadcast(params); err != nil {
 			resp.Code = "500"
 			resp.Body = err.Error()
-		}else{
-			resp.Code="200"
+		} else {
+			resp.Code = "200"
 		}
 	default:
 		resp.Code = "404"
@@ -127,3 +128,4 @@ func (server *CenterServer) Handle(method, params string) *ipc.Response {
 func (server *CenterServer) Name() string {
 	return "CenterServer"
 }
+

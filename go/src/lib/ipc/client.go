@@ -1,6 +1,7 @@
 package ipc
 import(
 	"encoding/json"
+	"fmt"
 )
 
 const(
@@ -40,5 +41,6 @@ func (client *IpcClient)Call(method,params string)(resp *Response,err error){
 }
 
 func(client *IpcClient)Close(){
+	fmt.Println("client.go:42:Close()")
 	client.conn<-"CLOSE"
 }

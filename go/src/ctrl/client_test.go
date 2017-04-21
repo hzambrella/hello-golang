@@ -1,8 +1,8 @@
 package ctrl
 
 import (
-	"testing"
 	"fmt"
+	"testing"
 )
 
 func TestNewPlayer(t *testing.T) {

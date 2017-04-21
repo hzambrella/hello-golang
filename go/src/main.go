@@ -135,6 +135,7 @@ func main(){
 		if handle,ok:=handleFunc[token[0]];ok{
 			ret:=handle(token)
 			if ret==1{
+				centerClient.Close()
 				break
 			}
 		}else{

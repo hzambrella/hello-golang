@@ -3,40 +3,27 @@ import(
 	"testing"
 	"fmt"
 )
+var _ Server=&myServer{}
 
-type EchoServer struct{
+type myServer struct{
+	Params string
 }
 
-func (server *EchoServer)Handle(method,params string)*Response{
-	return &Response{"200",method+" "+params}
-
+func (m *myServer)Name()string{
+	return "haozhao"
 }
 
-func (server *EchoServer)Name()string{
-	return "EchoServer"
+func (m *myServer)Handle(method,params string)*Response{
+	return &Response{method,params}
 }
 
-func TestIpc(t *testing.T){
-	server:=NewIpcServer(&EchoServer{})
-	client1:=NewIpcClient(server)
-	client2:=NewIpcClient(server)
-	resp1,err:=client1.Call("Caonima","From Client1")
+func TestMyServer(t *testing.T){
+	myS:=&myServer{"hahaha"}
+	ipcS:=NewIpcServer(myS)
+	ipcC:=NewIpcClient(ipcS)
+	resp,err:=ipcC.Call("ha","ja")
 	if err!=nil{
-		t.Fatal(err)
+		t.Fatal()
 	}
-
-	resp2,err:=client1.Call("Caonima","From Client2")
-	if err!=nil{
-		t.Fatal(err)
-	}
-
-	if resp1.Body!="Caonima From Client1"||resp2.Body!="Caonima From Client2"||resp1.Code!="200"||resp2.Code!="200"{
-		t.Error("fail testIpc resp1:" ,resp1.Code,resp1.Body," resp2:",resp2.Code,resp2.Body)
-	}
-
-	fmt.Println("test finish")
-
-	//client1.Close()
-	client2.Close()
+	fmt.Println(resp)
 }
-
