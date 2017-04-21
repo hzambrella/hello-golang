@@ -17,6 +17,7 @@ const(
 		i<username><level><exp>         add player
 		o<username>				        remove player   
 		b<message>                      broadcast      
+		s<message><from><to>            send message
 		l						        list all player
 		q                               quit
 		h                               help            
@@ -112,6 +113,19 @@ func Broadcast(args []string)int{
 	return 0
 }
 
+func SendMess(args []string)int{
+	//in case of panic :index out of range ,should check len(args)
+	if len(args)!=4{
+		fmt.Println("Usage:s<message><from><to>")
+		return 0
+	}
+	if err:=centerClient.SendMess(args[1],args[2],args[3]);err!=nil{
+		fmt.Println(err.Error())
+		return 0
+	}
+	return 0
+}
+
 //notice it!
 func CommandHandle()map[string]func(args []string)int{
 	return map[string]func(args []string)int{
@@ -119,6 +133,7 @@ func CommandHandle()map[string]func(args []string)int{
 		"o":Logout,
 		"h":Help,
 		"b":Broadcast,
+		"s":SendMess,
 		"l":ListPlayer,
 		"q":Quit,
 	}

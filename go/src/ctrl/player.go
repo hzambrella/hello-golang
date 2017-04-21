@@ -18,22 +18,23 @@ func NewPlayer() *Player {
 	p := &Player{mess: m}
 
 	go func(p *Player) {
-		fmt.Println("player.go:21:new thread")
+//		fmt.Println("player.go:21:new thread")
 		for {
-			fmt.Println("player.go:23:new for")
+//			fmt.Println("player.go:23:new for")
 			mRec := <-p.mess
+			fmt.Print(fmt.Sprintf("{user:%s}",p.Name))
 			if mRec.To == "all" {
 				if mRec.From == "admin" {
-					fmt.Println(fmt.Sprintf("[all]system:[%s]", mRec.Content))
+					fmt.Println(fmt.Sprintf("[all]system:->%s", mRec.Content))
 				} else {
-					fmt.Println(fmt.Sprintf("[all]%s:[%s]", mRec.From, mRec.Content))
+					fmt.Println(fmt.Sprintf("[all]%s:->%s", mRec.From, mRec.Content))
 				}
 			}
 
 			if mRec.To == p.Name {
 				fmt.Println(fmt.Sprintf("[private]%s:%s", mRec.From, mRec.Content))
 			}
-			fmt.Println("player.go:35:for end")
+			//fmt.Println("player.go:35:for end")
 
 			if mRec.From==p.Name&&mRec.To==p.Name{
 				if mRec.Content=="///system:quit"{
@@ -42,7 +43,7 @@ func NewPlayer() *Player {
 			}
 		}//for end
 
-		fmt.Println("player.go:33: thread end")
+		//fmt.Println("player.go:33: thread end")
 	}(p)
 
 	return p

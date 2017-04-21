@@ -96,3 +96,27 @@ func (client *CenterClient) Broadcast(message string) error {
 	return nil
 }
 
+
+func (client *CenterClient)SendMess(message ,from,to string)error{
+	mess := &Message{}
+	mess.Content = message
+	mess.From = from
+	mess.To = to
+	params, err := json.Marshal(mess)
+	if err != nil {
+		return err
+	}
+
+	resp, err := client.Call("sendmess", string(params)) //because of anonymous
+	if err != nil {
+		return err
+	}
+
+	if resp.Code != "200" {
+		return errors.New(resp.Body)
+	}
+
+	return nil
+
+}
+

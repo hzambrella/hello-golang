@@ -69,6 +69,42 @@ func (server *CenterServer) listPlayer() (string, error) {
 	return string(b), err
 }
 
+func(server *CenterServer)sendmess(params string)error{
+	var mess *Message
+	if err := json.Unmarshal([]byte(params), &mess); err != nil {
+		return err
+	}
+
+	flagFromErr:=true
+	flagToErr:=true
+
+	sendTo:=&Player{}
+	for _, v := range server.players {
+		if v.Name == mess.To {
+			flagToErr=false
+			sendTo=v
+		}
+
+		if v.Name == mess.From {
+			flagFromErr=false
+		}
+	}
+
+	if flagFromErr{
+		return errors.New(fmt.Sprintf("messsage source:%s not found",mess.From))
+	}
+
+	if flagToErr{
+		return errors.New(fmt.Sprintf("messsage target:%s not found",mess.To))
+	}
+
+	if !flagToErr&&!flagFromErr {
+		sendTo.mess<-mess
+	}
+	return nil
+
+}
+
 func (server *CenterServer) broadcast(params string) error {
 	var mess *Message
 	if err := json.Unmarshal([]byte(params), &mess); err != nil {
@@ -117,6 +153,13 @@ func (server *CenterServer) Handle(method, params string) *ipc.Response {
 			resp.Body = err.Error()
 		} else {
 			resp.Code = "200"
+		}
+	case "sendmess":
+		if err:=server.sendmess(params);err!=nil{
+			resp.Code="500"
+			resp.Body=err.Error()
+		}else{
+			resp.Code="200"
 		}
 	default:
 		resp.Code = "404"
