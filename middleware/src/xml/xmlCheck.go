@@ -19,7 +19,9 @@ func checkXML(next http.Handler)http.Handler{
 		//check file type
 		buf:=new(bytes.Buffer)
 		buf.ReadFrom(r.Body)
-		fileType:=http.DetectContentType(buf.Bytes())
+		b:=buf.Bytes()
+		fmt.Println(string(b))
+		fileType:=http.DetectContentType(b)
 		fmt.Println("filetype:",fileType)
 		if fileType!="text/xml;charset=utf-8"{
 			w.WriteHeader(400)
