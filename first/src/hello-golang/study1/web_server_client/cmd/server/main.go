@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"net/http/httputil"
 
-	"web_server_client/engine/datastore"
+	"hello-golang/web_server_client/study1/engine/datastore"
 )
 
 var data datastore.Data
