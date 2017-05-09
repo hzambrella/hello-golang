@@ -1,3 +1,4 @@
+#!/bin/sh
 #!/usr/bin/expect
 git status
 git add .
