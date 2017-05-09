@@ -1,4 +1,4 @@
 #!/usr/bin/expect
 expect "Username"
-send "hzambrella\r"
+send "hzambrella/r"
 interact
