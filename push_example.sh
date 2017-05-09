@@ -18,7 +18,6 @@ expect "Username"
 send "your username\r"
 expect "Password"
 send "your password\r"
-expect ">"
 expect eof
 !
 
