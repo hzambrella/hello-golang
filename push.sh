@@ -5,8 +5,8 @@ git status
 git commit -m"1"
 git status
 set timeout 30
-spawn git push origin master
-./login.sh
+git push origin master
+spawn ./login.sh
 
 
 
