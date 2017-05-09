@@ -8,7 +8,7 @@ set timeout 30
 expect <<!
 spawn git push origin master
 expect "Username"
-send "hzambrella/r"
+send "hzambrella\r"
 expect ">"
 expect eof
 !
