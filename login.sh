@@ -1,4 +1,4 @@
 #!/usr/bin/expect
-expect "Username for 'https://github.com':"
+expect "Username"
 send "hzambrella\r"
 interact
