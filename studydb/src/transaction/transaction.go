@@ -73,14 +73,14 @@ func datastore(){
 	if err!=nil{
 		panic(err)
 	}
-
+//sql.Tx一旦释放，连接就回到连接池中，这里stmt在关闭时就无法找到连接。所以必须在Tx commit或rollback之前关闭statement。
 	stmt.Close()
 
 	stmt,err=tx.Prepare(updateOrderTableSql)
 	if err!=nil{
 		panic(err)
 	}
-
+//故意制造一个panic,你会发现，前面的id=26的不会被修改成功
 //	panic("do wrong deliberately")
 	_,err=stmt.Exec("ha2",18)
 	if err!=nil{
