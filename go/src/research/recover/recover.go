@@ -1,19 +1,20 @@
 package recover
 import(
 	"fmt"
-	"errors"
+	"loghz"
+//	"errors"
 )
 
 func recoverA(){
 	defer func(){
 		if err:=recover();err!=nil{
-			fmt.Println(err)
+			loghz.Error(err.(error))
 		}
 	}()
 	f()
 }
 
 func f(){
-	errA:=errors.New("chucuola!")
-	panic(errA)
+	aslice:=[]int{1,2,3}
+	 fmt.Println(aslice[3])
 }
