@@ -14,6 +14,18 @@ func sliceStudy(){
 	s.a=aa
 	s.remove(4)
 	fmt.Println(s.a)
+
+	slice:=make([]string,0)
+	var sp *[]string
+	sp=&slice
+	fmt.Println(slice,cap(slice),len(slice))
+	fmt.Println(sp)
+	slice=[]string{"1","2"}
+	fmt.Println(slice,cap(slice),len(slice))
+	fmt.Println(sp)
+	slice=append(slice,"3","4")
+	fmt.Println(slice,"cap:",cap(slice),"len:",len(slice))
+	fmt.Println(sp)
 }
 
 func (a *slice)remove(key int){
