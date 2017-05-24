@@ -1,6 +1,6 @@
 package randByWeight
 import(
-	"loghz"
+	loghz"fmt"
 	"testing"
 //	"strings"
 )

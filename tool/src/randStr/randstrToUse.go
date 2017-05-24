@@ -1,6 +1,6 @@
 // 产生随机字符串的方法(可以改成接口)
 
-package main
+package randStr
 
 import (
 	//	"crypto/sha1"
@@ -9,13 +9,13 @@ import (
 	"math/rand"
 	"time"
 )
-
+/*
 func main() {
 	for i := 0; i < 50; i++ {
 		fmt.Println(Krand(16))
 	}
 }
-
+*/
 // 随机字符串
 func Krand(size int) string {
 	var ikind int
