@@ -14,13 +14,17 @@ const(
 //var IfPrintln bool=false
 
 // about depth:please find api :package runtime
-func fileLine(depth int)(string,int){
-	_,file,line,ok:=runtime.Caller(depth)
+//output func name ,file name,line num
+func fileLine(depth int)(string,string,int){
+	pc,file,line,ok:=runtime.Caller(depth)
+	var funcname string=""
 	if !ok{
 		file="?"
 		line=0
+	}else{
+		funcname=runtime.FuncForPC(pc).Name()
 	}
-	return file,line
+	return funcname,file,line
 }
 
 // println，显示行号和列号，方便调试
@@ -31,14 +35,18 @@ func Println(t ...interface{}){
 	}
 	*/
 
-	file,line:=fileLine(2)
+	funcname,file,line:=fileLine(2)
 
 	slash:=strings.LastIndex(file,"/")
 	if slash>=0{
 		file=file[slash+1:]
 	}
 
-	fmt.Printf("[[PRINT]%s:%d]",file,line)
+	slash2:=strings.LastIndex(funcname,"/")
+	if slash2>=0{
+		funcname=funcname[slash2+1:]
+	}
+	fmt.Printf("[[PRINT]%s:%d:'%s()']",file,line,funcname)
 	fmt.Println("--->",t)
 
 }
@@ -49,7 +57,7 @@ func Error(err error){
 	}
 	now:=time.Now()
 
-	file,line:=fileLine(2)
+	_,file,line:=fileLine(2)
 
 	fmt.Printf("[%s,ERROR]:%s:%d\n",now.Format(TIME_FORMAT),file,line)
 }
