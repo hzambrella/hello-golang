@@ -46,8 +46,15 @@ func Println(t ...interface{}){
 	if slash2>=0{
 		funcname=funcname[slash2+1:]
 	}
-	fmt.Printf("[[PRINT]%s:%d:'%s()']",file,line,funcname)
-	fmt.Println("--->",t)
+
+	fmt.Printf(" %c[1;41;37m%s%c[0m", 0x1B, "[PRINT]", 0x1B)
+	//fmt.Printf("%s:%d:'%s()'",file,line,funcname)
+	fmt.Printf(" %c[1;40;36m%s:%c[0m", 0x1B, file, 0x1B)
+	fmt.Printf(" %c[1;40;35m%d%c[0m", 0x1B, line, 0x1B)
+	fmt.Printf(" %c[1;40;34m%s()%c[0m", 0x1B, funcname, 0x1B)
+//	fmt.Printf("[[PRINT] 0x1B[1;40;32m%s0x1B[0m :%d:'%s()']",file,line,funcname)
+	fmt.Printf("--->")
+	fmt.Printf(" %c[1;40;32m%s%c[0m\n", 0x1B, t, 0x1B)
 
 }
 // 错误输出。带行号，方便检查错误和异常
