@@ -47,7 +47,7 @@ func Println(t ...interface{}){
 		funcname=funcname[slash2+1:]
 	}
 
-	fmt.Printf(" %c[1;41;37m%s%c[0m", 0x1B, "[PRINT]", 0x1B)
+	fmt.Printf("%c[1;42;37m%s%c[0m", 0x1B, "[PRINT]", 0x1B)
 	//fmt.Printf("%s:%d:'%s()'",file,line,funcname)
 	fmt.Printf(" %c[1;40;36m%s:%c[0m", 0x1B, file, 0x1B)
 	fmt.Printf(" %c[1;40;35m%d%c[0m", 0x1B, line, 0x1B)
@@ -64,7 +64,23 @@ func Error(err error){
 	}
 	now:=time.Now()
 
-	_,file,line:=fileLine(2)
+	funcname,file,line:=fileLine(2)
 
-	fmt.Printf("[%s,ERROR]:%s:%d\n",now.Format(TIME_FORMAT),file,line)
+	slash:=strings.LastIndex(file,"/")
+	if slash>=0{
+		file=file[slash+1:]
+	}
+
+	slash2:=strings.LastIndex(funcname,"/")
+	if slash2>=0{
+		funcname=funcname[slash2+1:]
+	}
+
+	fmt.Printf("%c[1;41;37m%s%s%c[0m", 0x1B,now.Format(TIME_FORMAT),"[ERROR]",0x1B)
+	fmt.Printf(" %c[1;40;36m%s:%c[0m", 0x1B, file, 0x1B)
+	fmt.Printf(" %c[1;40;35m%d%c[0m", 0x1B, line, 0x1B)
+	fmt.Printf(" %c[1;40;34m%s()%c[0m", 0x1B, funcname, 0x1B)
+	fmt.Printf("--->")
+	fmt.Printf(" %c[1;40;32m%v%c[0m\n", 0x1B, err, 0x1B)
+//	fmt.Printf("[%s,ERROR]:%s:%d\n",now.Format(TIME_FORMAT),file,line)
 }
