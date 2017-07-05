@@ -24,7 +24,7 @@ func work(ctx context.Context) {
 	defer wg.Done()
 	c := make(chan ResPack, 1)
 
-	req, _ := http.NewRequest("GET", "http://localhost:9200", nil)
+	req, _ := http.NewRequest("GET", "http://localhost:9200/lazy", nil)
 	go func() {
 		resp, err := client.Do(req)
 		pack := ResPack{r: resp, err: err}
@@ -53,6 +53,6 @@ func main() {
 	defer cancel()
 	wg.Add(1)
 	go work(ctx)
-	wg.Wait()
+	wg.Wait() //wg.Done(),主函数才结束
 	fmt.Println("Finished")
 }
