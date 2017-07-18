@@ -1,4 +1,5 @@
 push.sh
+golibs
 pkg
 bin
 db.cfg

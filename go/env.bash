@@ -5,6 +5,6 @@ git config --global url."git@git.ot24.net:".insteadOf "https://git.ot24.net"
 git config --global url."https://github.com/golang/".insteadOf "https://go.googlesource.com/"
 
 PWDDIR=`pwd`
-export LIBDIR="$(dirname "$PWDDIR")/tool"
-export GOPATH=$PWDDIR/go:$LIBDIR
+export LIBDIR="$(dirname "$PWDDIR")/golibs"
+export GOPATH=$LIBDIR:$PWDDIR/go
 echo $GOPATH
