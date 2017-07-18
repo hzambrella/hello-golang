@@ -17,6 +17,7 @@ const (
 )
 
 const (
+	ServerUid = "0"
 	PublicUid = "-1000"
 )
 
@@ -75,11 +76,15 @@ func (u *User) GetMess(b []byte) (*Message, error) {
 		return nil, err
 	}
 
-	if m.UidFrom != "0" {
-		if m.UidTo != PublicUid && m.UidTo != u.Uid {
-			return nil, RecieveError
+	/*
+		if m.UidFrom == "0" || m.UidTo == "0" {
+			//do nothing
+		} else {
+			if m.UidTo != PublicUid && m.UidTo != u.Uid {
+				return nil, RecieveError
+			}
 		}
-	}
+	*/
 	return &m, nil
 }
 

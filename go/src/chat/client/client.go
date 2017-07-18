@@ -9,7 +9,7 @@ import (
 	"github.com/hzambrella/gotool/loghz"
 )
 
-var logh = loghz.NewLogDebug(true)
+var logh = loghz.NewLogDebug(false)
 var userClient = &proto.User{Uid: "-1"}
 
 func main() {
@@ -19,7 +19,7 @@ func main() {
 	}
 
 	logh.Println(&conn)
-	logh.Println("hello server")
+	fmt.Println("hello server")
 
 	defer conn.Close()
 	go writeFromServer(conn)
@@ -34,33 +34,36 @@ func main() {
 		var uidTo string
 		var messType int
 		for {
-			logh.Println("input messType 1 :public  0 :default 2 setName: ")
+			fmt.Println("input messType 1 :public  0 :default 2 setName: ")
 			fmt.Scanln(&messType)
 			if messType >= proto.Default || messType <= proto.SetName {
 				break
 			} else {
-				logh.Println("wrong type ,try again")
+				fmt.Println("wrong type ,try again")
 			}
 		}
 
-		if messType == proto.SetName {
-			uidTo = "0"
-		} else {
-			logh.Println("input uidTo:")
+		switch messType {
+		case proto.SetName:
+			uidTo = proto.ServerUid
+		case proto.Public:
+			uidTo = proto.PublicUid
+		default:
+			fmt.Println("input uidTo:")
 			fmt.Scanln(&uidTo)
 		}
 
 		if len(talkContent) > 0 && len(uidTo) > 0 {
 			b, err := userClient.MakeMess(messType, uidTo, talkContent)
-			logh.Println(string(b))
+			//logh.Println(string(b))
 			if err != nil {
-				logh.Println("encode error")
+				fmt.Println("encode error")
 				return
 			}
 
 			_, err = conn.Write(b)
 			if err != nil {
-				logh.Println("write to server error")
+				fmt.Println("write to server error")
 				return
 			}
 		}
@@ -118,6 +121,7 @@ func writeFromServer(conn net.Conn) {
 		if mess.Type == proto.SetName {
 			userClient.Uid = mess.UidTo
 		}
+		fmt.Println(userClient.Uid, ":recieve:")
 		fmt.Println(mess)
 		//logh.Println(string(data[0:c]) + "\n ")
 	}

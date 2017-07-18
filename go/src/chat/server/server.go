@@ -96,6 +96,11 @@ func handleConnection(conn net.Conn, talkChan map[int]chan string) {
 			return
 		}
 
+		if nameResp.Type != proto.SetName {
+			nameResp.Type = proto.SetName
+			nameResp.UidTo = proto.ServerUid
+		}
+
 		userName := nameResp.Content
 		if err != nil {
 			logh.Error(err)
@@ -140,7 +145,8 @@ func handleConnection(conn net.Conn, talkChan map[int]chan string) {
 			mess, err := user.GetMess(socket[0:c])
 			if err != nil {
 				logh.Error(err, "读客户端传过来的数据")
-				closed <- true
+				continue
+				//closed <- true
 			}
 
 			switch mess.Type {
@@ -150,14 +156,21 @@ func handleConnection(conn net.Conn, talkChan map[int]chan string) {
 					logh.Error(err, "string uid to uid")
 					break
 				}
+				logh.Println("send to:", uto)
 				talkChan[uto] <- string(socket[0:c])
 			case proto.Public:
-				for _, v := range talkChan {
-					v <- string(socket[0:c])
+				logh.Println("public")
+				for k, _ := range talkChan {
+					if k != 0 {
+						talkChan[k] <- string(socket[0:c])
+						logh.Println("send to:", k)
+					}
 				}
 			case proto.SetName:
-				talkChan[0] <- string(socket[0:c])
+				logh.Println("invalid type")
+				//talkChan[0] <- string(socket[0:c])
 			default:
+				logh.Println("invalid type")
 				//do nothing
 			}
 
@@ -180,6 +193,7 @@ func handleConnection(conn net.Conn, talkChan map[int]chan string) {
 	go func() {
 		for {
 			socketStr := <-talkChan[curUid]
+			logh.Println(curUid, "is recieve message")
 			_, err = conn.Write([]byte(socketStr))
 			if err != nil {
 				logh.Error(err, "读出给这个客户端的数据 然后写到该客户端里")
@@ -214,7 +228,6 @@ func main() {
 	//talkChan := map[f]
 	talkChan := make(map[int]chan string)
 
-	logh.Println(talkChan)
 	server, err := proto.NewUser(strconv.Itoa(len(talkChan)), serverName)
 	if err != nil {
 		logh.Error(err, "服务号建立出错")
