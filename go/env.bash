@@ -6,5 +6,5 @@ git config --global url."https://github.com/golang/".insteadOf "https://go.googl
 
 PWDDIR=`pwd`
 export LIBDIR="$(dirname "$PWDDIR")/golibs"
-export GOPATH=$LIBDIR:$PWDDIR/go
+export GOPATH=$LIBDIR:$PWDDIR
 echo $GOPATH
