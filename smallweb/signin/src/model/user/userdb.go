@@ -1,5 +1,7 @@
 package user
 
+// model层尽量少的引用三方包，减小耦合。
+// 在 vim 输入  "%s/要被修改的/修改/g"，即可完成批量修改。如"%s/u s e r/s i g n i n/g"
 import (
 	"database/sql"
 	"errors"
