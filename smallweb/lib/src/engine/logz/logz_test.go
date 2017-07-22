@@ -16,6 +16,7 @@ func TestPrintln(t *testing.T) {
 
 	ll := NewLogDebug(true)
 	ll.Error(errors.New("test err"), "message")
+	ll.Error(errors.New("test err"))
 	ll.Info("request", "hello")
 	ll.Println("1", "2")
 	a := &testlog{1, 2, 3}

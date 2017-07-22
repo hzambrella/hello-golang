@@ -1,0 +1,12 @@
+<!--{{define "public/user/info"}}  -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>user infomation</title>
+</head>
+<body>
+    <p>haahaa</p>
+</body>
+</html>
+<!--{{end}}-->

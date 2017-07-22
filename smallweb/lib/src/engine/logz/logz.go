@@ -124,6 +124,8 @@ func (ll *LogDebug) Error(err error, t ...interface{}) {
 	fmt.Printf(" %c[1;40;34m%s()%c[0m", 0x1B, funcname, 0x1B)
 	fmt.Printf("--->")
 	fmt.Printf(" %c[1;40;32m%v%c[0m\n", 0x1B, err, 0x1B)
-	fmt.Println(fmt.Sprintf("%+v\n", t))
+	if t != nil {
+		fmt.Println(fmt.Sprintf("%+v\n", t))
+	}
 	//	fmt.Printf("[%s,ERROR]:%s:%d\n",now.Format(TIME_FORMAT),file,line)
 }
