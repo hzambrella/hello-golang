@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -21,8 +20,9 @@ func ReqURLPrt(next http.HandlerFunc) http.Handler {
 		codestr1 := w.Header().Get("codelog")
 		code, err := strconv.Atoi(codestr1)
 		if err != nil {
-			logl.Error(errors.New("no status code"))
-			panic(err)
+			return
+			//	logl.Error(errors.New("no status code"))
+			//	panic(err)
 		}
 		var codeStr string
 		var methodStr string

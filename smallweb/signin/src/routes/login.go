@@ -27,9 +27,11 @@ func init() {
 func login(w http.ResponseWriter, r *http.Request) {
 	state := uuid.NewV4().String()
 	reqUrlStore.Set(state, r.Host+r.RequestURI)
-	reLink := r.Host + LoginIndexPath + fmt.Sprintf(JumpStr, state)
+	//一定注意，加上http://，否则不会重定向
+	reLink := "http://" + r.Host + LoginIndexPath + fmt.Sprintf(JumpStr, state)
 	logl.Println("redirect to:", reLink)
 	http.Redirect(w, r, reLink, 302)
+	return
 }
 
 func loginIndex(w http.ResponseWriter, r *http.Request) {
@@ -40,6 +42,8 @@ func loginIndex(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	logl.Println("login index")
+
 	Render(w, 200, "public/user/login.html",
 		H{
 			"state": state,
@@ -47,7 +51,7 @@ func loginIndex(w http.ResponseWriter, r *http.Request) {
 }
 
 func doLogin(w http.ResponseWriter, r *http.Request) {
-	userName := FormValue(r, "user_name")
+	userName := FormValue(r, "username")
 	if len(userName) == 0 {
 		// 验证输入的工作尽量在前端完成
 		logl.Error(errors.New("user name is nil"))
@@ -111,7 +115,9 @@ func doLogin(w http.ResponseWriter, r *http.Request) {
 		Uid:      userinfo.UserId,
 	}
 	u.setCookie(w)
-	http.Redirect(w, r, reLink, 302)
+	logl.Println(reLink)
+	http.Redirect(w, r, "http://"+reLink, 302)
+	return
 }
 
 func registerIndex(w http.ResponseWriter, r *http.Request) {
@@ -201,5 +207,8 @@ func doRegister(w http.ResponseWriter, r *http.Request) {
 
 	u.setCookie(w)
 
-	http.Redirect(w, r, reLink, 302)
+	logl.Println(reLink)
+	//一定注意，加上http://，否则不会重定向
+	http.Redirect(w, r, "http://"+reLink, 302)
+	return
 }

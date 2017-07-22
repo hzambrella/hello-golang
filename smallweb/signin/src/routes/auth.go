@@ -82,7 +82,8 @@ func (u *userInfo) setCookie(w http.ResponseWriter) {
 func auth(w http.ResponseWriter, r *http.Request) (*userInfo, bool) {
 	ck, err := r.Cookie(cookie)
 	if err != nil {
-		logl.Error(err)
+		logl.Println(err)
+		login(w, r)
 		return nil, false
 	}
 
@@ -90,6 +91,7 @@ func auth(w http.ResponseWriter, r *http.Request) (*userInfo, bool) {
 	if err != nil {
 		if err == userNotFound {
 			login(w, r)
+			return nil, false
 		} else {
 			logl.Error(err)
 			return nil, false
