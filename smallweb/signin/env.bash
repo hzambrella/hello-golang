@@ -15,9 +15,11 @@ mkdir -p routes
 #model
 mkdir -p model
 cd ..
-#库和包
+#第三方库和包,.gitignore 要忽略掉
 export LIBDIR="$(dirname "$PWDDIR")/golibs"
+#自己的 库和包
+export LIB="$(dirname "$PWDDIR")/lib"
 #gopath
-export GOPATH=$LIBDIR:$PWDDIR
+export GOPATH=$LIBDIR:$LIB:$PWDDIR
 echo $GOPATH
 
