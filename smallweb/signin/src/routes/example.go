@@ -10,19 +10,26 @@ import (
 	"strconv"
 )
 
+const (
+	testStringPath = "/test/string"
+	testJSONPath   = "/test/json"
+	testHtmlPath   = "/test/html"
+	testHtml2Path  = "/test/html2"
+)
+
 func init() {
-	http.Handle("/test/string", ReqURLPrt(http.HandlerFunc(TestString)))
-	http.Handle("/test/json", ReqURLPrt(http.HandlerFunc(TestJSON)))
-	http.Handle("/test/html", ReqURLPrt(http.HandlerFunc(TestHTML)))
-	http.Handle("/test/html2", ReqURLPrt(http.HandlerFunc(test)))
+	http.Handle(testStringPath, ReqURLPrt(http.HandlerFunc(testString)))
+	http.Handle(testJSONPath, ReqURLPrt(http.HandlerFunc(testJSON)))
+	http.Handle(testHtmlPath, ReqURLPrt(http.HandlerFunc(testHTML)))
+	http.Handle(testHtml2Path, ReqURLPrt(http.HandlerFunc(test)))
 }
 
-func TestString(w http.ResponseWriter, r *http.Request) {
+func testString(w http.ResponseWriter, r *http.Request) {
 	String(w, 200, "hello")
 	return
 }
 
-func TestJSON(w http.ResponseWriter, r *http.Request) {
+func testJSON(w http.ResponseWriter, r *http.Request) {
 	name := FormValue(r, "name")
 	if len(name) == 0 {
 		// 这里是日志打印,目的见log.go和相关资料
@@ -50,7 +57,7 @@ func TestJSON(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func TestHTML(w http.ResponseWriter, r *http.Request) {
+func testHTML(w http.ResponseWriter, r *http.Request) {
 	name := FormValue(r, "name")
 	if len(name) == 0 {
 		// 这里是日志打印,目的见log.go和相关资料

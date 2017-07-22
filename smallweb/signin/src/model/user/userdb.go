@@ -55,7 +55,7 @@ func (db *userDB) Close() {
 }
 
 const (
-	getUserByName = `
+	getUserByNameSql = `
 SELECT
 	*
 FROM
@@ -67,7 +67,7 @@ WHERE
 
 func (db *userDB) GetUserByName(name string) (*User, error) {
 	user := User{}
-	err := db.QueryRow(getUserByName, name).Scan(
+	err := db.QueryRow(getUserByNameSql, name).Scan(
 		&user.UserId,
 		&user.Password,
 		&user.UserName,
@@ -83,3 +83,12 @@ func (db *userDB) GetUserByName(name string) (*User, error) {
 	}
 	return &user, nil
 }
+
+const (
+	addUserSql = `
+INSERT 
+	user_name,user_password,status
+INTO
+	user_info
+	`
+)

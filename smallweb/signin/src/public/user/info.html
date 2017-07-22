@@ -5,6 +5,10 @@
 <title>用户信息</title>
 </head>
 <body>
-    <p> 用户信息{{.user.UserName}}</p>
+    {{if .user}}
+    <p> 用户信息:{{.user.UserName}}</p>
+    {{else}}
+    <p>请登录 </p>
+    {{end}}
 </body>
 </html>
