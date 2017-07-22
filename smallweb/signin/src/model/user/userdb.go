@@ -13,6 +13,7 @@ type UserDB interface {
 	Ping() error
 	Close()
 	GetUserByName(name string) (*User, error)
+	AddUser(name, password string) (int, error)
 }
 
 var (
@@ -86,9 +87,22 @@ func (db *userDB) GetUserByName(name string) (*User, error) {
 
 const (
 	addUserSql = `
-INSERT 
-	user_name,user_password,status
-INTO
+INSERT INTO
 	user_info
+	(user_name,password,status)
+VALUE
+	(?,?,1)
 	`
 )
+
+func (db *userDB) AddUser(name, password string) (int, error) {
+	result, err := db.Exec(addUserSql, name, password)
+	if err != nil {
+		return 0, err
+	}
+	uid, err := result.LastInsertId()
+	if err != nil {
+		return 0, err
+	}
+	return int(uid), err
+}

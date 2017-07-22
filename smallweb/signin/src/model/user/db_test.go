@@ -32,3 +32,12 @@ func TestGetUserByName(t *testing.T) {
 	}
 	fmt.Println(user)
 }
+
+func TestAddUser(t *testing.T) {
+	fmt.Println("TestAddUser")
+	err := db.AddUser("nihao", "caonima")
+	if err != nil {
+		t.Fatal(err)
+	}
+	fmt.Println("ok")
+}

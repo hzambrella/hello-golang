@@ -16,6 +16,8 @@ var (
 	maxAge        = int(COOKIE_MAX_MAX_AGE)
 )
 
+var reqUrlStore datastore.Data = make(datastore.Data, 0)
+
 type userInfo struct {
 	Uid      int    `json:"uid"`
 	UserName string `json:"user_name"`
@@ -58,17 +60,6 @@ func (s session) SetUser(key string, user *userInfo) error {
 
 }
 
-var reqUrlStore datastore.Data = make(datastore.Data, 0)
-
-func (s session) SetUser(key string, user *userInfo) error {
-	ub, err := json.Marshal(user)
-	if err != nil {
-		return err
-	}
-	s[key] = ub
-	return nil
-
-}
 func (s session) Delete(key string) {
 	delete(s, key)
 }

@@ -33,7 +33,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 }
 
 func loginIndex(w http.ResponseWriter, r *http.Request) {
-	state := FormValue("state")
+	state := FormValue(r, "state")
 	if len(state) == 0 {
 		logl.Error(errors.New("state is nil"))
 		String(w, 500, "出错了！,请重新打开网页 state is nil")
@@ -47,23 +47,23 @@ func loginIndex(w http.ResponseWriter, r *http.Request) {
 }
 
 func doLogin(w http.ResponseWriter, r *http.Request) {
-	userName := FormValue("user_name")
+	userName := FormValue(r, "user_name")
 	if len(userName) == 0 {
 		// 验证输入的工作尽量在前端完成
-		logl.Error("user name is nil")
+		logl.Error(errors.New("user name is nil"))
 		String(w, 400, "请输入用户名")
 		return
 	}
 
-	password := FormValue("password")
+	password := FormValue(r, "password")
 	if len(password) == 0 {
 		// 验证输入的工作尽量在前端完成
-		logl.Error("password is nil")
+		logl.Error(errors.New("password is nil"))
 		String(w, 400, "请输入密码 ")
 		return
 	}
 
-	state := FormValue("state")
+	state := FormValue(r, "state")
 	if len(state) == 0 {
 		logl.Error(errors.New("state is nil"))
 		String(w, 500, "出错了！,请重新打开网页 state is nil")
@@ -78,38 +78,44 @@ func doLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := userDB.GetUserByName(name)
+	userinfo, err := userDB.GetUserByName(userName)
 	if err != nil {
 		logl.Error(err)
 		String(w, 500, err.Error())
 		return
 	}
 
-	if user.Password != password {
-		logl.Error(errors.New("密码错误"), username, password, user.Password)
+	if userinfo.Password != password {
+		logl.Error(errors.New("密码错误"), userName, password, userinfo.Password)
 		String(w, 400, "密码错误")
 		return
 	}
 
-	if user.State != 1 {
+	if userinfo.Status != 1 {
 		String(w, 400, "你被封号了，请注意你的行为举止")
 	}
 
 	//TODO:用户登录信息database记录
-	logl.Info("LOGIN", "欢迎"+username+"登录系统")
+	logl.Info("LOGIN", "欢迎"+userName+"登录系统")
 
 	reLink := reqUrlStore.Get(state)
+	delete(reqUrlStore, state)
 	if len(reLink) == 0 {
 		logl.Error(errors.New("relink is nil"))
 		String(w, 500, "出错了！,请重新打开网页 relink is nil")
 		return
 	}
 
+	u := &userInfo{
+		UserName: userinfo.UserName,
+		Uid:      userinfo.UserId,
+	}
+	u.setCookie(w)
 	http.Redirect(w, r, reLink, 302)
 }
 
 func registerIndex(w http.ResponseWriter, r *http.Request) {
-	state := FormValue("state")
+	state := FormValue(r, "state")
 	if len(state) == 0 {
 		logl.Error(errors.New("state is nil"))
 		String(w, 500, "出错了！,请重新打开网页 state is nil")
@@ -123,23 +129,23 @@ func registerIndex(w http.ResponseWriter, r *http.Request) {
 }
 
 func doRegister(w http.ResponseWriter, r *http.Request) {
-	userName := FormValue("user_name")
+	userName := FormValue(r, "user_name")
 	if len(userName) == 0 {
 		// 验证输入的工作尽量在前端完成
-		logl.Error("user name is nil")
+		logl.Error(errors.New("user name is nil"))
 		String(w, 400, "请输入用户名")
 		return
 	}
 
-	password := FormValue("password")
+	password := FormValue(r, "password")
 	if len(password) == 0 {
 		// 验证输入的工作尽量在前端完成
-		logl.Error("password is nil")
+		logl.Error(errors.New("password is nil"))
 		String(w, 400, "请输入密码 ")
 		return
 	}
 
-	state := FormValue("state")
+	state := FormValue(r, "state")
 	if len(state) == 0 {
 		logl.Error(errors.New("state is nil"))
 		String(w, 500, "出错了！,请重新打开网页 state is nil")
@@ -154,28 +160,46 @@ func doRegister(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := userDB.AddUser(name, password)
+	_, err = userDB.GetUserByName(userName)
+	if err != nil {
+		if err != user.UserDataNotFound {
+			//do nothing
+		} else {
+			logl.Error(err)
+			String(w, 500, err.Error())
+			return
+		}
+	} else {
+		logl.Println(fmt.Sprintf("用户名 %s已注册. ", userName))
+		String(w, 400, fmt.Sprintf("用户名 %s已注册. ", userName))
+		return
+
+	}
+
+	uid, err := userDB.AddUser(userName, password)
 	if err != nil {
 		logl.Error(err)
 		String(w, 500, err.Error())
 		return
 	}
 
-	if user.Password != password {
-		logl.Error(errors.New("密码错误"), username, password, user.Password)
-		String(w, 400, "密码错误")
-		return
-	}
-
 	//TODO:用户登录信息database记录
-	logl.Info("LOGIN", "欢迎"+username+"注册系统")
+	logl.Info("LOGIN", "欢迎"+userName+"注册系统")
 
 	reLink := reqUrlStore.Get(state)
+	delete(reqUrlStore, state)
 	if len(reLink) == 0 {
 		logl.Error(errors.New("relink is nil"))
 		String(w, 500, "出错了！,请重新打开网页 relink is nil")
 		return
 	}
+
+	u := &userInfo{
+		UserName: userName,
+		Uid:      uid,
+	}
+
+	u.setCookie(w)
 
 	http.Redirect(w, r, reLink, 302)
 }
