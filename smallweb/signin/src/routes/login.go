@@ -152,7 +152,7 @@ func registerIndex(w http.ResponseWriter, r *http.Request) {
 }
 
 func doRegister(w http.ResponseWriter, r *http.Request) {
-	userName := FormValue(r, "user_name")
+	userName := FormValue(r, "username")
 	if len(userName) == 0 {
 		// 验证输入的工作尽量在前端完成
 		logl.Error(errors.New("user name is nil"))

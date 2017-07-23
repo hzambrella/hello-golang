@@ -1,0 +1,70 @@
+<!DOCTYPE html >
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>用户注册</title>
+    <script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
+
+<body>
+    <p> 用户注册</p>
+
+    <div style="border:1px solid #FFA500;">
+        <p>请输入下列信息：</p>
+        <form action="/login" method="post">
+            用户名:<input type="text" name="username" id="username"> </br>
+            密码:<input type="password" name="password" id="password"></br>
+
+        </form>
+        <input type="submit" id="submit" value="提交注册">
+
+    </div>
+    </form>
+    <input id="state" type="hidden" value="{{.state}}">
+    <script>
+        $(document).ready(function () {
+            $("#submit").click(function () {
+                var username = $("#username").val()
+                var password = $("#password").val()
+                var state = $("#state").val()
+                if (username==""){
+                    alert("用户名不能为空")
+                    return
+                }
+
+
+                if (password==""){
+                    alert(" 密码不能为空")
+                    return
+                }
+
+                
+               
+                $.ajax({
+                    type: "POST",
+                    url: "/register/api",
+                    dataType: "json",
+                    data: {
+                        username: username,
+                        password: password,
+                        state: state
+                    },
+                    success: function (data) {
+                        alert("注册成功！ 跳转回"+data.relink);
+                        document.location.href=data.relink;
+                    },
+
+                    error: function (result) {
+                        alert(result.responseText);
+                    }
+                });
+
+            })
+        })
+    </script>
+
+</body>
+
+
+</html>

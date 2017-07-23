@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"engine/datastore"
 	"errors"
+	"fmt"
 	"model"
 )
 
@@ -36,6 +37,7 @@ func NewUserDB() (UserDB, error) {
 	}
 
 	dbname, ok := data["dbname"]
+	fmt.Println("dbname:", dbname)
 	if !ok || len(dbname) == 0 {
 		return nil, errors.New("配置文件错误")
 	}
