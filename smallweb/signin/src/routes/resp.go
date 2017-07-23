@@ -8,6 +8,7 @@ import (
 	"strconv"
 )
 
+// 模仿 gin echo框架的Render,String, JSON
 type tempStore map[string]*template.Template //TODO:读取public下的模板文件，并进行缓存
 type H map[string]interface{}
 

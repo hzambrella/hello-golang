@@ -1,24 +1,22 @@
 package user
 
 import (
-	"engine/datastore"
 	"fmt"
 	"testing"
 )
 
-var data datastore.Data = make(datastore.Data, 0)
+/*单元测试，用来检查错误。在写包的时候，最好做这个测试，用处是1.检查，2.用例子告诉别人怎么用你写的包  3.排查bug
+测试指令
+	go test
+	go test -run=TestGetUserByName
+开发时间紧时，可以不写
+*/
 var db UserDB
-var dsnCfg string
 
 func init() {
-	data, err := datastore.ParseDataFromFile("../../../etc/db.cfg")
-	if err != nil {
-		panic(err)
-	}
 
-	dsnCfg = data["dbname"] + data["dsn"]
-	fmt.Println(dsnCfg)
-	db, err = NewUserDB(dsnCfg)
+	var err error
+	db, err = NewUserDB()
 	if err != nil {
 		panic(err)
 	}
@@ -35,9 +33,9 @@ func TestGetUserByName(t *testing.T) {
 
 func TestAddUser(t *testing.T) {
 	fmt.Println("TestAddUser")
-	err := db.AddUser("nihao", "caonima")
+	uid, err := db.AddUser("nihao", "caonima")
 	if err != nil {
 		t.Fatal(err)
 	}
-	fmt.Println("ok")
+	fmt.Println("ok   ", uid)
 }

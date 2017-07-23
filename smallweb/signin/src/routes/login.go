@@ -9,12 +9,22 @@ import (
 	"github.com/satori/go.uuid"
 )
 
+//用户登录，模仿柳丁的login.go
+//TODO:密码的加密解密。如base64,XXtea
+//TODO:用户登录信息database记录
+//TODO:修改个人信息，忘记密码，短信验证码（没发短信的功能接口）
+//TODO:weixin  ali
+
 const (
-	LoginIndexPath    = "/login/index"
-	DoLoginPath       = "/login/api"
+	//登录主页
+	LoginIndexPath = "/login/index"
+	//账号密码验证及跳转原始链接
+	DoLoginPath = "/login/api"
+	// 注册主页
 	RegisterIndexPath = "/register/index"
-	DoRegisterPath    = "/register/api"
-	JumpStr           = "?state=%s"
+	// 注册提交
+	DoRegisterPath = "/register/api"
+	JumpStr        = "?state=%s"
 )
 
 func init() {
@@ -31,9 +41,11 @@ func login(w http.ResponseWriter, r *http.Request) {
 	reLink := "http://" + r.Host + LoginIndexPath + fmt.Sprintf(JumpStr, state)
 	logl.Println("redirect to:", reLink)
 	http.Redirect(w, r, reLink, 302)
+	//TODO weixin and ali
 	return
 }
 
+//登录主页
 func loginIndex(w http.ResponseWriter, r *http.Request) {
 	state := FormValue(r, "state")
 	if len(state) == 0 {
@@ -50,6 +62,7 @@ func loginIndex(w http.ResponseWriter, r *http.Request) {
 		})
 }
 
+//账号密码验证及跳转原始链接
 func doLogin(w http.ResponseWriter, r *http.Request) {
 	userName := FormValue(r, "username")
 	if len(userName) == 0 {
@@ -75,7 +88,7 @@ func doLogin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//TODO:密码的加密解密。如base64,XXtea
-	userDB, err := user.NewUserDB(dsnCfg)
+	userDB, err := user.NewUserDB()
 	if err != nil {
 		logl.Error(err)
 		String(w, 500, err.Error())
@@ -116,7 +129,11 @@ func doLogin(w http.ResponseWriter, r *http.Request) {
 	}
 	u.setCookie(w)
 	logl.Println(reLink)
-	http.Redirect(w, r, "http://"+reLink, 302)
+	//	http.Redirect(w, r, "http://"+reLink, 302)
+	JSON(w, 200,
+		H{
+			"relink": "http://" + reLink,
+		})
 	return
 }
 
@@ -159,7 +176,7 @@ func doRegister(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//TODO:密码的加密解密。如base64,XXtea
-	userDB, err := user.NewUserDB(dsnCfg)
+	userDB, err := user.NewUserDB()
 	if err != nil {
 		logl.Error(err)
 		String(w, 500, err.Error())
@@ -209,6 +226,10 @@ func doRegister(w http.ResponseWriter, r *http.Request) {
 
 	logl.Println(reLink)
 	//一定注意，加上http://，否则不会重定向
-	http.Redirect(w, r, "http://"+reLink, 302)
+	//http.Redirect(w, r, "http://"+reLink, 302)
+	JSON(w, 200,
+		H{
+			"relink": "http://" + reLink,
+		})
 	return
 }

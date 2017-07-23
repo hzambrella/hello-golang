@@ -23,7 +23,7 @@ func signinHTML(w http.ResponseWriter, r *http.Request) {
 
 	name := u.UserName
 
-	userDB, err := user.NewUserDB(dsnCfg)
+	userDB, err := user.NewUserDB()
 	if err != nil {
 		logl.Error(err)
 		String(w, 500, err.Error())

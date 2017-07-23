@@ -16,7 +16,8 @@
             密码:<input type="password" name="password" id="password"></br>
 
         </form>
-        <input type="submit" id="submit" value="提交">
+        <input type="submit" id="submit" value="登录">
+        <input type="button" id="register" value="没有账号？注册！">
 
     </div>
     </form>
@@ -50,7 +51,8 @@
                         state: state
                     },
                     success: function (data) {
-                        alert("data")
+                        alert(" 跳转至"+data.relink);
+                        document.location.href=data.relink;
                     },
 
                     error: function (result) {

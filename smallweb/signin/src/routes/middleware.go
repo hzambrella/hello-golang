@@ -6,12 +6,16 @@ import (
 	"strconv"
 )
 
+//color
 //参考: http://studygolang.com/articles/2500
 //参考: https://github.com/gin-gonic/gin/blob/e31cbdf241b1ff161e3bc5eb4af1c9601fbb7639/logger.go
+
 //中间件，可以不要
-//打印请求的链接,方法，时间，以及状态码
-//TODO :400 会打印两次
-//TODO:不存在的链接服务端能提示
+//gin echo的中间件实现更优雅:router.Use(),这里的十分丑:
+//http.Handle(signinHtmlPath, ReqURLPrt(http.HandlerFunc(signinHTML)))
+
+//打印请求的链接,方法，时间，以及状态码,是日志
+//TODO:若请求不存在的链接,服务端能提示,像echo框架
 func ReqURLPrt(next http.HandlerFunc) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
