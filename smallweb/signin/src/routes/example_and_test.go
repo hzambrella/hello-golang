@@ -87,6 +87,7 @@ func testHTML(w http.ResponseWriter, r *http.Request) {
 	}()
 	fmt.Println(user)
 
+	// 注意路径
 	Render(w, 200, "public/user/info.html",
 		H{
 			"user": user,

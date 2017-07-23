@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"model"
+	"os"
 )
 
 type UserDB interface {
@@ -31,7 +32,8 @@ type userDB struct {
 // 一开始的sql.Open()方法写在这里，即没有缓存，这样做的坏处是，每次调用这个函数就连接一下数据库。连接数据库是很大的一笔系统开销。当用户多的时候，系统就会满载。
 // 现在将其移动到model/db.go/GetDB方法
 func NewUserDB() (UserDB, error) {
-	data, err := datastore.ParseDataFromFile("../../../etc/db.cfg")
+	//data, err := datastore.ParseDataFromFile("../../../etc/db.cfg")
+	data, err := datastore.ParseDataFromFile(os.Getenv("ETCDIR") + "/db.cfg")
 	if err != nil {
 		return nil, err
 	}

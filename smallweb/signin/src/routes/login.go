@@ -185,7 +185,7 @@ func doRegister(w http.ResponseWriter, r *http.Request) {
 
 	_, err = userDB.GetUserByName(userName)
 	if err != nil {
-		if err != user.UserDataNotFound {
+		if err == user.UserDataNotFound {
 			//do nothing
 		} else {
 			logl.Error(err)

@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"engine/datastore"
 	"fmt"
+	"os"
 	"sync"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -36,7 +37,10 @@ func init() {
 	m := make(map[string]*sql.DB, 0)
 	LinkStore = DBstore{m, mu}
 
-	data, err := datastore.ParseDataFromFile("../etc/db.cfg")
+	// 路径花式出错:no such file or director。这里go test对的， 但是main的init就出错。按照main的改，可以运行，但XXNewDB又出错。不得已规定了一个环境变量，用绝对路径
+	//data, err := datastore.ParseDataFromFile("../../db.cfg")
+	//data, err := datastore.ParseDataFromFile( "../db.cfg")
+	data, err := datastore.ParseDataFromFile(os.Getenv("ETCDIR") + "/db.cfg")
 	if err != nil {
 		panic(err)
 	}

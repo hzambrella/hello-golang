@@ -5,6 +5,8 @@
 #git config --global url."https://github.com/golang/".insteadOf "https://go.googlesource.com/"
 
 PWDDIR=`pwd`
+export ETCDIR=$PWDDIR/etc
+echo $ETCDIR
 #MVC架构
 #view
 mkdir -p src    
