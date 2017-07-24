@@ -2,18 +2,15 @@ golang 原生服务端开发模板(2017-7-24)
 ==================
     用原生http模仿newding项目 。尽量实现一些框架的功能,如gin的logger中间件(middleware.go)。
     开发模板有利于帮助理解gin和echo和项目流程,以及net/http包的用法
-    缺陷很多，比如模板缓存未实现。未采用上下文context机制 . 参考：
-   [context机制](http://www.tuicool.com/articles/RNvMRbm)
-   
+    缺陷很多，比如模板缓存未实现。未采用上下文context机制 . 参考:http://www.tuicool.com/articles/RNvMRbm
     作用:说明原生的go  net/http也可以搭建服务。如现在的app 服务，newding 是原生,
     没用什么框架。（何工的高科技框架由于离职被废弃了。。现在好像还在n3d,读不懂）。
     已实现用户登陆鉴权流程 auth.go login.go
 
-## 1.配置文件:json格式.
-    真正项目应当采用ini格式。ini格式解析包 :
-   [goconfig](https://github.com/Unknwon/goconfig)
-    db.cfg 数据库(在这里修改数据库配置文件)
-    server.cfg 服务器配置(在这里修改端口号 )
+## 1.配置文件etc
+    配置文件是json格式。真正项目应当采用ini格式。ini格式解析包:https://github.com/Unknwon/goconfig
+    - db.cfg 数据库(在这里修改数据库配置文件)
+    - server.cfg 服务器配置(在这里修改端口号 )
 
 ## 2.框架:
 ### 推荐（看api就会的，好用）
