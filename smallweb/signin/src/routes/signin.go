@@ -14,10 +14,12 @@ const (
 	// signin 主页加载
 	signinHtmlPath = "/signin/index"
 	//TODO 抽奖
+	doSigninPath = "/signin/api"
 )
 
 func init() {
 	http.Handle(signinHtmlPath, ReqURLPrt(http.HandlerFunc(signinHTML)))
+	http.Handle(doSigninPath, ReqURLPrt(http.HandlerFunc(doSignin)))
 }
 
 func signinHTML(w http.ResponseWriter, r *http.Request) {
@@ -58,3 +60,9 @@ func signinHTML(w http.ResponseWriter, r *http.Request) {
 }
 
 //TODO 抽奖
+func doSignin(w http.ResponseWriter, r *http.Request) {
+	prize := "签到成功！假装你中奖了：iphone7s "
+	JSON(w, 200, H{
+		"mess": prize,
+	})
+}

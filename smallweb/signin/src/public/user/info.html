@@ -3,6 +3,7 @@
 <html>
 <head>
 <title>用户信息</title>
+    <script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
 </head>
 <body>
     {{if .user}}
@@ -12,6 +13,31 @@
     {{end}}
 
     <p>假装它是签到页面 </p>
-    <img src="http://o9h3qt176.qnssl.com/n5d/cover_53ed87ec09334b76a6b6ea39b68dec59.png "></img>
+    <button id="dosign">签到</button>
+
+    <img src="http://o9h3qt176.qnssl.com/n5d/cover_53ed87ec09334b76a6b6ea39b68dec59.png"height="50" width="50" ></img>
+
+    <script>
+        $(document).ready(function () {
+            $("#dosign").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/signin/api",
+                    dataType: "json",
+                    data: {
+                    },
+                    success: function (data) {
+                        alert(data.mess);
+                    },
+
+                    error: function (result) {
+                        alert(result.responseText);
+                    }
+                });
+
+            })
+        })
+    </script>
+
 </body>
 </html>
