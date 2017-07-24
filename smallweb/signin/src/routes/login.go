@@ -13,7 +13,7 @@ import (
 //TODO:密码的加密解密。如base64,XXtea
 //TODO:用户登录信息database记录
 //TODO:修改个人信息，忘记密码，短信验证码（没发短信的功能接口）
-//TODO:weixin  ali
+//TODO:微信阿里的网页鉴权
 
 const (
 	//登录主页
@@ -35,13 +35,15 @@ func init() {
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
+	//state
 	state := uuid.NewV4().String()
+	//缓存原始请求链接，key:state  value:链接
 	reqUrlStore.Set(state, r.Host+r.RequestURI)
 	//一定注意，加上http://，否则不会重定向
 	reLink := "http://" + r.Host + LoginIndexPath + fmt.Sprintf(JumpStr, state)
 	logl.Println("redirect to:", reLink)
-	http.Redirect(w, r, reLink, 302)
 	//TODO weixin and ali
+	http.Redirect(w, r, reLink, 302)
 	return
 }
 
@@ -50,7 +52,7 @@ func loginIndex(w http.ResponseWriter, r *http.Request) {
 	state := FormValue(r, "state")
 	if len(state) == 0 {
 		logl.Error(errors.New("state is nil"))
-		String(w, 500, "出错了！,请重新打开网页 state is nil")
+		String(w, 500, "出错了！,请重新打开网页 state is nil,您是否已经登陆过？")
 		return
 	}
 
@@ -83,7 +85,7 @@ func doLogin(w http.ResponseWriter, r *http.Request) {
 	state := FormValue(r, "state")
 	if len(state) == 0 {
 		logl.Error(errors.New("state is nil"))
-		String(w, 500, "出错了！,请重新打开网页 state is nil")
+		String(w, 500, "出错了！,请重新打开网页 state is nil,您是否已经登陆过？")
 		return
 	}
 
@@ -141,7 +143,7 @@ func registerIndex(w http.ResponseWriter, r *http.Request) {
 	state := FormValue(r, "state")
 	if len(state) == 0 {
 		logl.Error(errors.New("state is nil"))
-		String(w, 500, "出错了！,请重新打开网页 state is nil")
+		String(w, 500, "出错了！,请重新打开网页 state is nil,您是否已经登陆过？")
 		return
 	}
 
@@ -171,7 +173,7 @@ func doRegister(w http.ResponseWriter, r *http.Request) {
 	state := FormValue(r, "state")
 	if len(state) == 0 {
 		logl.Error(errors.New("state is nil"))
-		String(w, 500, "出错了！,请重新打开网页 state is nil")
+		String(w, 500, "出错了！,请重新打开网页 state is nil,您是否已经登陆过？")
 		return
 	}
 

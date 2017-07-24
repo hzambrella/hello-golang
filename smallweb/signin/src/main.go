@@ -5,13 +5,15 @@ import (
 	"engine/logz"
 	"errors"
 	"net/http"
+	"os"
 	_ "routes"
 )
 
 var port string
 
 func init() {
-	serverData, err := datastore.ParseDataFromFile("../etc/server.cfg")
+	//serverData, err := datastore.ParseDataFromFile("../etc/server.cfg")
+	serverData, err := datastore.ParseDataFromFile(os.Getenv("ETCDIR") + "/server.cfg")
 	if err != nil {
 		panic(err)
 	}

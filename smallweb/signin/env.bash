@@ -6,6 +6,7 @@
 
 PWDDIR=`pwd`
 export ETCDIR=$PWDDIR/etc
+#配置文件目录
 echo $ETCDIR
 #MVC架构
 #view

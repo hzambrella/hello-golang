@@ -1,0 +1,25 @@
+用原生http模仿newding项目 。尽量实现一些框架的功能,如gin的logger中间件。
+缺少很多，比如模板缓存
+
+实现了用户登陆鉴权流程
+
+配置文件:json,应当采用ini格式。ini格式解析包 :https://github.com/Unknwon/goconfig
+
+db.cfg 数据库
+server.cfg 服务器配置
+
+框架:
+gin 
+    https://github.com/gin-gonic/gin 
+echo
+    http://go-echo.org/
+fasthttp
+    http://www.qingpingshan.com/jb/go/148471.html
+uweb(柳丁)
+    https://github.com/ot24net/uweb
+xp
+    http://www.qingpingshan.com/jb/go/148471.html
+beego 不推荐
+
+
+
