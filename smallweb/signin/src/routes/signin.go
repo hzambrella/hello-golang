@@ -50,17 +50,21 @@ func signinHTML(w http.ResponseWriter, r *http.Request) {
 		}
 	}()
 	fmt.Println(user)
-	//TODO:活动等信息
+	//TODO:签到记录表信息,查看用户是否签过到，给前端传一个状态
 
 	Render(w, 200, "public/user/info.html",
 		H{
 			"user": user,
+			//是否签过到。前端根据这个参数决定签到按钮是否失效
+			//"status": status,
 			//TODO:活动等信息
 		})
 }
 
 //TODO 抽奖
 func doSignin(w http.ResponseWriter, r *http.Request) {
+	//TODO:向签到记录表记录签到信息。
+	//TODO:抽奖,将奖品信息传到前端
 	prize := "签到成功！假装你中奖了：iphone7s "
 	JSON(w, 200, H{
 		"mess": prize,
