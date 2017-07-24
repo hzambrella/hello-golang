@@ -1,11 +1,10 @@
 golang 原生服务端开发模板(2017-7-24)
 ==================
-
-用原生http模仿newding项目 。尽量实现一些框架的功能,如gin的logger中间件(middleware.go)。开发模板有利于帮助理解gin和echo和项目流程,以及net/http包的用法
-缺陷很多，比如模板缓存未实现
-未采用上下文context机制 . 参考 (http://www.tuicool.com/articles/RNvMRbm)
-作用:说明原生的go  net/http也可以搭建服务。如现在的app 服务，newding 是原生,没用什么框架。（何工的高科技框架由于离职被废弃了。。现在好像还在n3d,读不懂）。
-已实现用户登陆鉴权流程 auth.go login.go
+    用原生http模仿newding项目 。尽量实现一些框架的功能,如gin的logger中间件(middleware.go)。开发模板有利于帮助理解gin和echo和项目流程,以及net/http包的用法
+    缺陷很多，比如模板缓存未实现
+    未采用上下文context机制 . 参考 (http://www.tuicool.com/articles/RNvMRbm)
+    作用:说明原生的go  net/http也可以搭建服务。如现在的app 服务，newding 是原生,没用什么框架。（何工的高科技框架由于离职被废弃了。。现在好像还在n3d,读不懂）。
+    已实现用户登陆鉴权流程 auth.go login.go
 
 ## 1.配置文件:json格式.
     真正项目应当采用ini格式。ini格式解析包 :[goconfig](https://github.com/Unknwon/goconfig)
@@ -25,7 +24,7 @@ golang 原生服务端开发模板(2017-7-24)
     -[fasthttp(何工采用过的 )](http://www.qingpingshan.com/jb/go/148471.html)
     -beego 
 
-##3.newding服务端其他技术（我还没搞懂）：
+## 3.newding服务端其他技术（我还没搞懂）：
 ### (1)反向代理:nginx， haproxy
     现在用haproxy
 
@@ -42,7 +41,8 @@ golang 原生服务端开发模板(2017-7-24)
 ## 4:golang后端如何和前端交互
 ### 数据渲染：
     (1) go模板  （template/html包），将数据加载到html上，发送给客户端浏览器
-    (2) vue.js: 先将html发送给客户端浏览器。html上的vue会再次请求数据（这个具体怎么做到的我不知道）。服务端收到请求后,将 json格式的数据发送过去。vue.js将json数据渲染到html上的vue模板上。
+    (2) vue.js: 先将html发送给客户端浏览器。html上的vue会再次请求数据（这个具体怎么做到的我不知道）。
+    服务端收到请求后,将 json格式的数据发送过去。vue.js将json数据渲染到html上的vue模板上。
     
 ### 按钮:
     按钮触发一些事件。涉及到和后端交互的是ajax异步请求。
