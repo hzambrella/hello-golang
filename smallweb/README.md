@@ -22,7 +22,7 @@ golang 原生服务端开发模板(2017-7-24)
 ### 其他
 
    - [uweb(柳丁,如后台 )](https://github.com/ot24net/uweb)
-   - [xp(xjp 师兄)](http://www.qingpingshan.com/jb/go/148471.html)
+   - [xp(xjp 师兄)](https://git.oschina.net/JinpengXu/xp.git)
    - [fasthttp(何工采用过的 )](http://www.qingpingshan.com/jb/go/148471.html)
    - beego 
 
