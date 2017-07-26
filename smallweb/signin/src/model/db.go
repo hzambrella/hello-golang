@@ -67,3 +67,15 @@ func (d DBstore) GetDB(linkName string) (*sql.DB, error) {
 	}
 	return db, nil
 }
+
+//compare
+func (d DBstore) GetDBNoPool(linkName string) (*sql.DB, error) {
+	d.Mu.Lock()
+	defer d.Mu.Unlock()
+
+	newlink, err := sql.Open(driver, dsnCfg)
+	if err != nil {
+		return nil, err
+	}
+	return newlink, nil
+}

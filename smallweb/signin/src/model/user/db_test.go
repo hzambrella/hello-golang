@@ -39,3 +39,12 @@ func TestAddUser(t *testing.T) {
 	}
 	fmt.Println("ok   ", uid)
 }
+
+func TestUpdateUserStatus(t *testing.T) {
+	fmt.Println("TestUpdateUserStatus")
+	_, err := db.UpdateUserStatus("123", "2")
+	if err != nil {
+		t.Fatal(err)
+	}
+	fmt.Println("ok   ")
+}

@@ -16,6 +16,7 @@ type UserDB interface {
 	Close()
 	GetUserByName(name string) (*User, error)
 	AddUser(name, password string) (int, error)
+	UpdateUserStatus(name, status string) (int, error)
 }
 
 var (
@@ -106,6 +107,29 @@ VALUE
 
 func (db *userDB) AddUser(name, password string) (int, error) {
 	result, err := db.Exec(addUserSql, name, password)
+	if err != nil {
+		return 0, err
+	}
+	uid, err := result.LastInsertId()
+	if err != nil {
+		return 0, err
+	}
+	return int(uid), err
+}
+
+const (
+	updateUserStatusSql = `
+UPDATE
+	user_info
+SET
+	status=?
+WHERE
+	user_name=?
+	`
+)
+
+func (db *userDB) UpdateUserStatus(name, status string) (int, error) {
+	result, err := db.Exec(updateUserStatusSql, status, name)
 	if err != nil {
 		return 0, err
 	}
