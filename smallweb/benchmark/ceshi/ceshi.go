@@ -31,6 +31,7 @@ func (a tongji) Get() int {
 	return a.nowNum
 }
 
+//解决了自增至1000但结果最终不等于1000问题。
 func ceshi() {
 	// 一定要make!!!
 	close := make(chan string)
