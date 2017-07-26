@@ -10,7 +10,7 @@ import (
 )
 
 //用户登录，模仿柳丁的login.go
-//TODO:密码的加密解密。如base64,XXtea
+//TODO:密码的加密解密。
 //TODO:用户登录信息database记录
 //TODO:修改个人信息，忘记密码，短信验证码（没发短信的功能接口）
 //TODO:微信阿里的网页鉴权
