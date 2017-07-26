@@ -1,6 +1,6 @@
 golang 原生服务端开发模板(2017-7-24)
 ==================
-   用原生http模仿newding项目 。尽量实现一些框架的功能,如gin的logger中间件(middleware.go)。
+   用原生http简单地模仿nd项目 。尽量实现一些框架的功能,如gin的logger中间件(middleware.go)。
    开发模板有利于帮助理解gin和echo和项目流程,以及net/http包的用法
    缺陷很多，比如模板缓存未实现。未采用上下文context机制 。参考:http://www.tuicool.com/articles/RNvMRbm
    
