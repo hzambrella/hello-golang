@@ -9,7 +9,8 @@ import (
 
 var (
 	driver string = "mysql"
-	dsn    string = "haozhao:haozhoa@tcp(192.168.0.114:3306)/hz_db"
+	//dsn    string = "haozhao:haozhoa@tcp(192.168.0.114:3306)/hz_db"
+	dsn string = "haozhao:haozhoa@tcp(127.0.0.1:3306)/test"
 )
 
 const (
@@ -19,6 +20,17 @@ const (
 	FROM
 		user_login
 	WHERE
+		id=?
+	`
+)
+
+const (
+	getUserSql = `
+	SELECT
+		*
+	FROM
+		user
+	WHERE 
 		id=?
 	`
 )
@@ -58,11 +70,12 @@ func main() {
 	}
 
 	var id int64
-	err = db.QueryRow(getUserLoginSql, "1").Scan(&id)
+	var name string
+	err = db.QueryRow(getUserSql, "1").Scan(&id, &name)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	fmt.Println(id)
+	fmt.Println(id, name)
 
 }
 
