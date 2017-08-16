@@ -25,8 +25,9 @@ golang 原生服务端开发模板(2017-7-24)
    - [xp(xjp 师兄)](https://git.oschina.net/JinpengXu/xp.git)
    - [fasthttp(何工采用过的 )](http://www.qingpingshan.com/jb/go/148471.html)
    - [revel](http://www.gorevel.cn/docs/index.html)
-   - beego 
- 不推荐beego和revel。如Revel的很多方式与Go语言的构建习惯相去甚远，同时也失去了一些强大go工具集的协助。
+   - [beego]() 
+   
+   不推荐beego和revel。如Revel的很多方式与Go语言的构建习惯相去甚远，同时也失去了一些强大go工具集的协助。
    
 
 ## 3.newding服务端其他技术（我还没搞懂）：
